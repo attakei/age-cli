@@ -1,4 +1,5 @@
 // Entry point.
+mod commands;
 use clap::{Parser, Subcommand};
 
 const VERSION: &'static str = "0.0.0";
@@ -20,7 +21,7 @@ fn main() {
     let cli = Cli::parse();
     match &cli.command {
         Some(Commands::Version {}) => {
-            println!("Running gazer v{VERSION}");
+            commands::version::run();
         }
         None => {}
     }
