@@ -21,13 +21,16 @@ enum Commands {
 
 fn main() {
     let cli = Cli::parse();
-    match &cli.command {
-        Some(Commands::Version {}) => {
-            commands::version::run();
+    let result = match &cli.command {
+        Some(Commands::Version {}) => commands::version::execute(),
+        Some(Commands::Init {}) => commands::init::execute(),
+        None => Ok(()),
+    };
+    match result {
+        Ok(()) => 0,
+        Err(err) => {
+            println!("{err}");
+            1
         }
-        Some(Commands::Init {}) => {
-            commands::init::run().expect("Command is failed");
-        }
-        None => {}
-    }
+    };
 }
