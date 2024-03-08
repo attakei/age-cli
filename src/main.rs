@@ -1,5 +1,6 @@
 // Entry point.
 mod commands;
+mod config;
 use clap::{Parser, Subcommand};
 
 const VERSION: &'static str = "0.0.0";
