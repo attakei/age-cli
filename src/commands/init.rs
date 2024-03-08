@@ -1,7 +1,8 @@
 use anyhow::{anyhow, Result};
-use std::{env::current_dir, fs::File, path::Path};
-
+use std::env::current_dir;
+use std::fs::File;
 use std::io::prelude::*;
+use std::path::Path;
 
 const DEFAULT_CONFIG_FILE: &'static str = ".gazer.toml";
 const DEFAULT_CONFIG_VALUE: &'static str = r#"
