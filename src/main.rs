@@ -15,6 +15,8 @@ struct Cli {
 enum Commands {
     /// Display version information
     Version {},
+    /// Create configuration file.
+    Init {},
 }
 
 fn main() {
@@ -22,6 +24,9 @@ fn main() {
     match &cli.command {
         Some(Commands::Version {}) => {
             commands::version::run();
+        }
+        Some(Commands::Init {}) => {
+            commands::init::run().expect("Command is failed");
         }
         None => {}
     }
