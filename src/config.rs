@@ -25,6 +25,8 @@ pub struct Config {
 #[derive(Serialize, Deserialize)]
 pub struct FileConfig {
     path: String,
+    search: String,
+    replace: String,
 }
 
 impl Config {
