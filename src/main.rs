@@ -1,4 +1,5 @@
 // Entry point.
+mod app;
 mod commands;
 mod config;
 mod versioning;
