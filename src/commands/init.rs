@@ -20,7 +20,7 @@ pub fn execute() -> Result<()> {
     println!("Creating file.");
     // Generate config file.
     let mut out = File::create(target)?;
-    let conf = config::DEFAULT_VALUES.as_bytes();
+    let conf = config::DEFAULT_VALUES.trim_start().as_bytes();
     let _ = out.write(conf);
 
     Ok(())
