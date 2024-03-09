@@ -16,13 +16,13 @@ search = "version = \"{current_version}\""
 replace = "version = \"{new_version}\""
 "#;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct Config {
     pub current_version: Version,
     files: Vec<FileConfig>,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct FileConfig {
     path: String,
     search: String,
@@ -42,6 +42,15 @@ impl Config {
 impl FileConfig {
     pub fn get_path(&self) -> &String {
         &self.path
+    }
+
+    pub fn search_text(&self, current_version: &Version) -> String {
+        self.search
+            .replace("{current_version}", &current_version.to_string())
+    }
+    pub fn replace_text(&self, new_version: &Version) -> String {
+        self.replace
+            .replace("{new_version}", &new_version.to_string())
     }
 }
 
