@@ -14,6 +14,8 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Commands {
+    /// Display config.
+    Info {},
     /// Display version information
     Version {},
     /// Create configuration file.
@@ -23,6 +25,7 @@ enum Commands {
 fn main() {
     let cli = Cli::parse();
     let result = match &cli.command {
+        Some(Commands::Info {}) => commands::info::execute(),
         Some(Commands::Version {}) => commands::version::execute(),
         Some(Commands::Init {}) => commands::init::execute(),
         None => Ok(()),
