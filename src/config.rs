@@ -18,7 +18,7 @@ replace = "version = \"{new_version}\""
 
 #[derive(Serialize, Deserialize)]
 pub struct Config {
-    current_version: Version,
+    pub current_version: Version,
     files: Vec<FileConfig>,
 }
 
