@@ -2,6 +2,11 @@
 
 age is my bumpversion tool (for training Rust programming).
 
+## Overview
+
+This is faster bump-version tools inspired by bumpversion and inherits.
+**age** is a meaning that *logging lib's birthday* and *"Up" in Japanese slang*.
+
 ## Installation
 
 ```
