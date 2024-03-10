@@ -6,8 +6,6 @@ mod versioning;
 use clap::{Parser, Subcommand};
 use semver::Version;
 
-const VERSION: &'static str = "0.2.0";
-
 #[derive(Parser)]
 #[command(version, about, long_about = None)]
 struct Cli {

@@ -4,8 +4,3 @@ current_version = "0.2.0"
 path = "Cargo.toml"
 search = "version = \"{{current_version}}\""
 replace = "version = \"{{new_version}}\""
-
-[[files]]
-path = "src/main.rs"
-search = "const VERSION: &'static str = \"{{current_version}}\";"
-replace = "const VERSION: &'static str = \"{{new_version}}\";"
