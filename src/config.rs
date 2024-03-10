@@ -42,11 +42,11 @@ impl FileConfig {
 
     pub fn search_text(&self, current_version: &Version) -> String {
         self.search
-            .replace("{current_version}", &current_version.to_string())
+            .replace("{{current_version}}", &current_version.to_string())
     }
     pub fn replace_text(&self, new_version: &Version) -> String {
         self.replace
-            .replace("{new_version}", &new_version.to_string())
+            .replace("{{new_version}}", &new_version.to_string())
     }
 }
 
