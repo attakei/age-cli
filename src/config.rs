@@ -6,7 +6,7 @@ use std::env::current_dir;
 use std::fs::read_to_string;
 use std::path::{Path, PathBuf};
 
-pub const DEFAULT_FILENAME: &'static str = ".gazer.toml";
+pub const DEFAULT_FILENAME: &'static str = ".age.toml";
 pub const DEFAULT_VALUES: &'static str = r#"
 current_version = "0.0.0"
 
@@ -55,9 +55,9 @@ impl FileConfig {
  */
 pub fn find_config_path() -> Option<PathBuf> {
     let pwd = current_dir().unwrap();
-    let _gazer_toml = pwd.join(Path::new(DEFAULT_FILENAME));
-    if _gazer_toml.exists() {
-        return Some(_gazer_toml);
+    let _main_toml = pwd.join(Path::new(DEFAULT_FILENAME));
+    if _main_toml.exists() {
+        return Some(_main_toml);
     }
     None
 }

@@ -1,23 +1,23 @@
-# gazer
+# age
 
-gazer is my bumpversion tool (for training Rust programming).
+age is my bumpversion tool (for training Rust programming).
 
 ## Installation
 
 ```
-cargo install --git https://github.com/attakei-lab/gazer.git
+cargo install --git https://github.com/attakei-lab/age.git
 ```
 
 ## Usage
 
-At first, you must generate configuration file -- `.gazer.toml`.
+At first, you must generate configuration file -- `.age.toml`.
 You should edit it for your current version, because generated file is set `current_version = "0.0.0"`.
 
 ```
-gazer init
+age init
 ```
 
-If you want to up next version, run `gazer update|major|minor|patch`.
+If you want to up next version, run `age update|major|minor|patch`.
 
 * `update` accepts any semver.
 * `major` is shortcut to major version updating of semver.
@@ -28,16 +28,16 @@ Example:
 
 ```console
 # If current_version = "1.2.3"
-> gazer major  # Update to 2.0.0
-> gazer minor  # Update to 1.3.0
-> gazer patch  # Update to 1.2.4
+> age major  # Update to 2.0.0
+> age minor  # Update to 1.3.0
+> age patch  # Update to 1.2.4
 ```
 
 ## Configuration file
 
 ### `current_version`
 
-Version value that gazer manages.
+Version value that `age` manages.
 
 ### `files`
 
