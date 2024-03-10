@@ -30,10 +30,6 @@ pub struct FileConfig {
 }
 
 impl Config {
-    pub fn get_current_version(&self) -> &Version {
-        &self.current_version
-    }
-
     pub fn get_files(&self) -> &Vec<FileConfig> {
         &self.files
     }

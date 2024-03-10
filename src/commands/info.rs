@@ -10,18 +10,18 @@ pub fn execute() -> Result<()> {
     let config_data = config::load_config().unwrap();
     println!("# Version info");
     println!();
-    println!("- Current:    {}", config_data.get_current_version());
+    println!("- Current:    {}", config_data.current_version);
     println!(
         "- Next major: {}",
-        versioning::up_major(config_data.get_current_version())
+        versioning::up_major(&config_data.current_version)
     );
     println!(
         "- Next minor: {}",
-        versioning::up_minor(config_data.get_current_version())
+        versioning::up_minor(&config_data.current_version)
     );
     println!(
         "- Next patch: {}",
-        versioning::up_patch(config_data.get_current_version())
+        versioning::up_patch(&config_data.current_version)
     );
     println!();
     println!("# Replace targets");
