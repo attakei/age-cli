@@ -1,0 +1,44 @@
+name: 'Release binaries'
+
+on:
+  push:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ${{ matrix.vm }}
+    env:
+      release_name: 'gazer-${{ github.ref_name }}_${{ matrix.name }}'
+    strategy:
+      matrix:
+        include:
+          - name: linux
+            vm: ubuntu-latest
+          - name: macosx
+            vm: macos-latest
+          - name: windows
+            vm: windows-latest
+    steps:
+      - uses: 'actions/checkout@v4'
+      - name: 'Build'
+        run: cargo build --release
+      - name: 'Collect release items (*nix)'
+        if: runner.os != 'Windows'
+        run: |
+          mkdir -p dist/$release_name
+          cp README.md LICENSE target/release/gazer dist/$release_name
+      - name: 'Collect release items (windows)'
+        if: runner.os == 'Windows'
+        run: |
+          mkdir -p dist/$env:release_name
+          Copy-Item -Path README.md,LICENSE,target/release/gazer.exe -Destination dist/$env:release_name
+      - name: 'Make archive'
+        uses: thedoctor0/zip-release@master
+        with:
+          type: zip
+          directory: 'dist'
+          path: '${{ env.release_name }}'
+          filename: '${{ env.release_name }}.zip'
+      - run: 'ls -l dist'
