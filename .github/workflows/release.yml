@@ -41,4 +41,15 @@ jobs:
           directory: 'dist'
           path: '${{ env.release_name }}'
           filename: '${{ env.release_name }}.zip'
-      - run: 'ls -l dist'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: 'release-${{ env.release_name }}'
+          path: 'dist/${{ env.release_name }}.zip'
+  release:
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: 'dist'
+          merge-multiple: true
