@@ -20,7 +20,6 @@ pub fn update(base_config: &Config, new_version: &Version) -> Result<()> {
         let search_text = f.search_text(current_version);
         let mut new_text: Vec<String> = Vec::new();
         for line in read_to_string(f.get_path()).unwrap().split("\n") {
-            println!("{}", line);
             if line == search_text {
                 new_text.push(f.replace_text(&new_version))
             } else {
