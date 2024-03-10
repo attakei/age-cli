@@ -6,7 +6,7 @@ mod versioning;
 use clap::{Parser, Subcommand};
 use semver::Version;
 
-const VERSION: &'static str = "0.0.0";
+const VERSION: &'static str = "0.1.0";
 
 #[derive(Parser)]
 #[command(version, about, long_about = None)]
