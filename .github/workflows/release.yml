@@ -2,6 +2,8 @@ name: 'Release binaries'
 
 on:
   push:
+    tags:
+      - 'v*.*.*'
 
 permissions:
   contents: write
@@ -53,3 +55,11 @@ jobs:
         with:
           path: 'dist'
           merge-multiple: true
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: 'dist/*'
+          body: 'See https://github.com/attakei-lab/gazer/blob/main/CHANGELOG.md'
+          draft: false
+          name: Release ${{ github.ref_name }}
+          tag: ${{ github.ref }}
+          prerelease: false
