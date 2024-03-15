@@ -12,8 +12,8 @@ current_version = "0.0.0"
 
 [[files]]
 path = "Cargo.toml"
-search = "version = \"{current_version}\""
-replace = "version = \"{new_version}\""
+search = "version = \"{{current_version}}\""
+replace = "version = \"{{new_version}}\""
 "#;
 
 #[derive(Clone, Serialize, Deserialize)]
