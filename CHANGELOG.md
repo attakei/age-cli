@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.1 - 2024-03-15 (JST)
+
+### Fixes
+
+- Correct template for `age init` command.
+
 ## v0.2.0 - 2024-03-10 (JST)
 
 ### Breaking changes
