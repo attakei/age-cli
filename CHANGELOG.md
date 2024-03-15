@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.2.0 - 2024-03-10 (JST)
+
+### Breaking changes
+
+- It is renamed application.
+- Change replace search and target rule.
+  It use `{{ ~ }}` instead of `{ ~ }`.
+
 ## v0.1.0 - 2024-03-10 (JST)
 
 ### Features
