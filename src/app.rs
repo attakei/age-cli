@@ -22,14 +22,14 @@ pub fn update(base_config: &Config, new_version: &Version) -> Result<()> {
         let search_text = Tera::one_off(&f.search, &ctx, true).unwrap();
         let replace_text = Tera::one_off(&f.replace, &ctx, true).unwrap();
         let mut new_text: Vec<String> = Vec::new();
-        for line in read_to_string(f.get_path()).unwrap().split("\n") {
+        for line in read_to_string(&f.path).unwrap().split("\n") {
             if line == search_text {
                 new_text.push(replace_text.to_string())
             } else {
                 new_text.push(line.to_string())
             }
         }
-        let mut out = File::create(f.get_path())?;
+        let mut out = File::create(&f.path)?;
         let _ = out.write(new_text.join("\n").as_bytes());
     }
     println!("Updated!!");

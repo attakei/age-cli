@@ -31,7 +31,7 @@ pub(crate) fn execute(_args: &Arguments) -> Result<()> {
     println!("# Replace targets");
     println!();
     for f in config_data.get_files() {
-        println!("- {}", f.get_path())
+        println!("- {}", f.path.to_str().unwrap())
     }
     // Display infomation data.
     Ok(())

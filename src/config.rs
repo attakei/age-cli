@@ -24,7 +24,7 @@ pub struct Config {
 
 #[derive(Clone, Serialize, Deserialize)]
 pub struct FileConfig {
-    path: String,
+    pub path: PathBuf,
     pub search: String,
     pub replace: String,
 }
@@ -32,12 +32,6 @@ pub struct FileConfig {
 impl Config {
     pub fn get_files(&self) -> &Vec<FileConfig> {
         &self.files
-    }
-}
-
-impl FileConfig {
-    pub fn get_path(&self) -> &String {
-        &self.path
     }
 }
 
