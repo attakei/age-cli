@@ -4,3 +4,12 @@ current_version = "0.2.1"
 path = "Cargo.toml"
 search = "version = \"{{current_version}}\""
 replace = "version = \"{{new_version}}\""
+
+[[files]]
+path = "CHANGELOG.md"
+search = "# Changelog"
+replace = """
+# Changelog
+
+## v{{new_version}} - {{now|date}} (JST)
+"""

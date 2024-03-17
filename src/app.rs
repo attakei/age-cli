@@ -1,4 +1,5 @@
 use anyhow::Result;
+use chrono::Local;
 use semver::Version;
 use std::fs::{read_to_string, File};
 use std::io::prelude::*;
@@ -40,5 +41,6 @@ fn make_context(current_version: &Version, new_version: &Version) -> Context {
     let mut ctx = Context::new();
     ctx.insert("current_version", current_version);
     ctx.insert("new_version", new_version);
+    ctx.insert("now", &Local::now().to_rfc3339());
     ctx
 }
