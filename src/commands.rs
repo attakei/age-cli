@@ -34,7 +34,7 @@ enum Commands {
     Init(init::Arguments),
 }
 
-pub fn execute() -> Result<()> {
+pub fn run_command() -> Result<()> {
     let cli = Cli::parse();
     match &cli.command {
         Some(Commands::Info(args)) => info::execute(args),
