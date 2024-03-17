@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.3.0 - 2024-03-18 (JST)
+
+### Features
+
+- `search` and `replace` (of `[[files]]` in config) are supported context values. (#2)
+- Add `now` about execute datetime into context values. (#2)
+
 ## v0.2.1 - 2024-03-15 (JST)
 
 ### Fixes
