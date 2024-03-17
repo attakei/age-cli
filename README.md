@@ -49,5 +49,18 @@ Version value that `age` manages.
 List of replace target for update versioning.
 
 * `path`: File path of cwd.
-* `search`: Replace target line. `{{current_version}}` will be replaced for current version.
-* `replace`: Replaced text for target. `{{new_version}}` will be replaced for next version.
+* `search`: Replace target line.
+* `replace`: Replaced text for target.
+
+## Templating context
+
+Age uses template-engine to search and replace targets.
+You can set context values into `files.search` and `files.replace`.
+
+If you want to know example, please see `.age.toml`.
+
+### Context values.
+
+- `current_version`: Version text before run command.
+- `new_version`: New version text after run command.
+- `now`: Date time text when context is created (as ISO 8601 format string).
