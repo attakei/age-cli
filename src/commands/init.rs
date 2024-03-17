@@ -5,7 +5,12 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::path::Path;
 
-pub fn execute() -> Result<()> {
+use clap::Args;
+
+#[derive(Args)]
+pub(crate) struct Arguments {}
+
+pub(crate) fn execute(_args: &Arguments) -> Result<()> {
     let target = current_dir()?.join(Path::new(config::DEFAULT_FILENAME));
     {
         // TODO: Right way?

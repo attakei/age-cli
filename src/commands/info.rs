@@ -4,8 +4,12 @@ use crate::config;
 use crate::versioning;
 
 use anyhow::Result;
+use clap::Args;
 
-pub fn execute() -> Result<()> {
+#[derive(Args)]
+pub(crate) struct Arguments {}
+
+pub(crate) fn execute(_args: &Arguments) -> Result<()> {
     // Load config file.
     let config_data = config::load_config().unwrap();
     println!("# Version info");

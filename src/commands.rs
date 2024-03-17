@@ -8,7 +8,6 @@ mod version;
 
 use anyhow::Result;
 use clap::{Parser, Subcommand};
-use semver::Version;
 
 #[derive(Parser)]
 #[command(version, about, long_about = None)]
@@ -20,31 +19,31 @@ struct Cli {
 #[derive(Subcommand)]
 enum Commands {
     /// Display config.
-    Info {},
+    Info(info::Arguments),
     /// Update version text
-    Update { new_version: Version },
+    Update(update::Arguments),
     /// Shortcut of major version update
-    Major {},
+    Major(major::Arguments),
     /// Shortcut of minor version update
-    Minor {},
+    Minor(minor::Arguments),
     /// Shortcut of patch version update
-    Patch {},
+    Patch(patch::Arguments),
     /// Display version information
-    Version {},
+    Version(version::Arguments),
     /// Create configuration file.
-    Init {},
+    Init(init::Arguments),
 }
 
 pub fn execute() -> Result<()> {
     let cli = Cli::parse();
     match &cli.command {
-        Some(Commands::Info {}) => info::execute(),
-        Some(Commands::Version {}) => version::execute(),
-        Some(Commands::Init {}) => init::execute(),
-        Some(Commands::Update { new_version }) => update::execute(new_version),
-        Some(Commands::Major {}) => major::execute(),
-        Some(Commands::Minor {}) => minor::execute(),
-        Some(Commands::Patch {}) => patch::execute(),
+        Some(Commands::Info(args)) => info::execute(args),
+        Some(Commands::Version(args)) => version::execute(args),
+        Some(Commands::Init(args)) => init::execute(args),
+        Some(Commands::Update(args)) => update::execute(args),
+        Some(Commands::Major(args)) => major::execute(args),
+        Some(Commands::Minor(args)) => minor::execute(args),
+        Some(Commands::Patch(args)) => patch::execute(args),
         None => Ok(()),
     }
 }
