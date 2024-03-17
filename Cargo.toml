@@ -10,4 +10,5 @@ anyhow = "1.0.80"
 clap = { version = "4.5.2", features = ["derive"] }
 semver = { version = "1.0.22", features = ["serde"] }
 serde = { version = "1.0.197", features = ["derive"] }
+tera = { version = "1.19.1", default-features = false }
 toml = "0.8.10"

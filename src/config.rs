@@ -25,8 +25,8 @@ pub struct Config {
 #[derive(Clone, Serialize, Deserialize)]
 pub struct FileConfig {
     path: String,
-    search: String,
-    replace: String,
+    pub search: String,
+    pub replace: String,
 }
 
 impl Config {
@@ -38,15 +38,6 @@ impl Config {
 impl FileConfig {
     pub fn get_path(&self) -> &String {
         &self.path
-    }
-
-    pub fn search_text(&self, current_version: &Version) -> String {
-        self.search
-            .replace("{{current_version}}", &current_version.to_string())
-    }
-    pub fn replace_text(&self, new_version: &Version) -> String {
-        self.replace
-            .replace("{{new_version}}", &new_version.to_string())
     }
 }
 
