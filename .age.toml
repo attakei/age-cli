@@ -6,6 +6,11 @@ search = "version = \"{{current_version}}\""
 replace = "version = \"{{new_version}}\""
 
 [[files]]
+path = "pyproject.toml"
+search = "version = \"{{current_version}}\""
+replace = "version = \"{{new_version}}\""
+
+[[files]]
 path = "CHANGELOG.md"
 search = "# Changelog"
 replace = """
