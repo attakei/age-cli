@@ -9,6 +9,7 @@ dependencies = [
     "pytest~=8.1.1",
     "sphinx~=7.2.6",
     "myst-parser~=2.0.0",
+    "piccolo-theme~=0.20.0",
 ]
 readme = "README.md"
 requires-python = ">= 3.11"

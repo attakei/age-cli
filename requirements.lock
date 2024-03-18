@@ -40,6 +40,7 @@ myst-parser==2.0.0
 packaging==24.0
     # via pytest
     # via sphinx
+piccolo-theme==0.20.0
 pluggy==1.4.0
     # via pytest
 pygments==2.17.2
@@ -53,6 +54,7 @@ snowballstemmer==2.2.0
     # via sphinx
 sphinx==7.2.6
     # via myst-parser
+    # via piccolo-theme
 sphinxcontrib-applehelp==1.0.8
     # via sphinx
 sphinxcontrib-devhelp==1.0.6

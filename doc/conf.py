@@ -8,11 +8,17 @@ author = "Kazuya Takei"
 release = "0.3.0"
 
 # -- General configuration
-extensions = []
+extensions = ["myst_parser"]
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 # -- Options for HTML output
-html_theme = "haiku"
+html_theme = "piccolo_theme"
 html_static_path = ["_static"]
-html_title = "age"
+html_css_files = ["css/custom.css"]
+html_title = "age -faster bumpversion alternation-"
+html_short_title = "age"
+html_theme_options = {
+    "source_url": "https://github.com/attakei-lab/age/",
+    "source_icon": "github",
+}

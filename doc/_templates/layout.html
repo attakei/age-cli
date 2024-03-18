@@ -1,0 +1,8 @@
+{%- extends "!layout.html" %}
+
+{% block haikuheader %}
+{% set title = "～faster bump2version alternation～" %}
+<h1 class="heading"><a href="{{ pathto(root_doc)|e }}">
+    <span>{{ shorttitle|e }}</span></a></h1>
+<h2 class="heading"><span>{{ title|striptags|e }}</span></h2>
+{% endblock %}
