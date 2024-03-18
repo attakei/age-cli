@@ -27,4 +27,25 @@ jobs:
       - uses: 'Swatinem/rust-cache@v2'
       - name: 'Run test'
         run: cargo test --verbose
-
+  e2e:
+    needs: ['lint']
+    runs-on: 'ubuntu-latest'
+    steps:
+      - uses: 'actions/checkout@v4'
+      # Build target for pytest
+      - uses: 'Swatinem/rust-cache@v2'
+      - name: 'Build'
+        run: cargo build --verbose
+      # Run pytest
+      - uses: actions/setup-python@v5
+        with:
+          python-version-file: '.python-version'
+      - name: 'Configure venv'
+        run: |
+          pip install uv
+          uv venv
+          uv pip install -r requirements.lock
+      - name: 'Run tests'
+        run: |
+          source .venv/bin/activate
+          pytest
