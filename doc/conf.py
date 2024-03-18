@@ -8,7 +8,7 @@ author = "Kazuya Takei"
 release = "0.3.0"
 
 # -- General configuration
-extensions = ["myst_parser"]
+extensions = ["myst_parser", "sphinx.ext.todo"]
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
@@ -22,3 +22,7 @@ html_theme_options = {
     "source_url": "https://github.com/attakei-lab/age/",
     "source_icon": "github",
 }
+
+# -- Options for extensions
+# sphinx.ext.todo
+todo_include_todos = True
