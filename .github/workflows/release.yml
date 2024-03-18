@@ -63,3 +63,5 @@ jobs:
           name: Release ${{ github.ref_name }}
           tag: ${{ github.ref }}
           prerelease: false
+      - name: 'Update document'
+        uses: './.github/workflows/deploy-doc'
