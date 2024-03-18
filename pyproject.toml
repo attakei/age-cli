@@ -15,3 +15,9 @@ requires-python = ">= 3.8"
 managed = true
 virtual = true
 dev-dependencies = []
+
+[tool.ruff.lint]
+select = ["C90", "D", "E", "F", "I", "W"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "pep257"
