@@ -7,6 +7,8 @@ authors = [
 ]
 dependencies = [
     "pytest~=8.1.1",
+    "sphinx~=7.2.6",
+    "myst-parser~=2.0.0",
 ]
 readme = "README.md"
 requires-python = ">= 3.11"
@@ -14,7 +16,13 @@ requires-python = ">= 3.11"
 [tool.rye]
 managed = true
 virtual = true
-dev-dependencies = []
+dev-dependencies = [
+    "esbonio~=0.16.4",
+    "sphinx-autobuild~=2024.2.4",
+]
+
+[tool.rye.scripts]
+doc = "make -C doc"
 
 [tool.ruff.lint]
 select = ["C90", "D", "E", "F", "I", "W"]

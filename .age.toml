@@ -11,6 +11,11 @@ search = "version = \"{{current_version}}\""
 replace = "version = \"{{new_version}}\""
 
 [[files]]
+path = "doc/conf.py"
+search = "release = \"{{current_version}}\""
+replace = "release = \"{{new_version}}\""
+
+[[files]]
 path = "CHANGELOG.md"
 search = "# Changelog"
 replace = """
