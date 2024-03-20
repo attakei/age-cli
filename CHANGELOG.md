@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.4.0 - 2024-03-21 (JST)
+
+## Breaking chances
+
+- Remove `version` subcommand (use `--version` intead)
+
+## Features
+
+- Print error these cases:
+  - Run `init` if configuration file is already exists.
+  - Run except for `init` if configuration file is not exists or is invalid foramt.
+
 ## v0.3.0 - 2024-03-18 (JST)
 
 ### Features
