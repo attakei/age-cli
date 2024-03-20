@@ -4,7 +4,6 @@ mod major;
 mod minor;
 mod patch;
 mod update;
-mod version;
 
 use anyhow::Result;
 use clap::{Parser, Subcommand};
@@ -28,8 +27,6 @@ enum Commands {
     Minor(minor::Arguments),
     /// Shortcut of patch version update
     Patch(patch::Arguments),
-    /// Display version information
-    Version(version::Arguments),
     /// Create configuration file.
     Init(init::Arguments),
 }
@@ -38,7 +35,6 @@ pub fn run_command() -> Result<()> {
     let cli = Cli::parse();
     match &cli.command {
         Some(Commands::Info(args)) => info::execute(args),
-        Some(Commands::Version(args)) => version::execute(args),
         Some(Commands::Init(args)) => init::execute(args),
         Some(Commands::Update(args)) => update::execute(args),
         Some(Commands::Major(args)) => major::execute(args),
