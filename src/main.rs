@@ -7,11 +7,12 @@ use crate::commands::run_command;
 
 fn main() {
     let result = run_command();
-    match result {
+    let return_code = match result {
         Ok(()) => 0,
         Err(err) => {
-            println!("{err}");
+            eprintln!("{err}");
             1
         }
     };
+    std::process::exit(return_code);
 }
