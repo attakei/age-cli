@@ -16,13 +16,13 @@ search = "version = \"{{current_version}}\""
 replace = "version = \"{{new_version}}\""
 "#;
 
-#[derive(Clone, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Config {
     pub current_version: Version,
     files: Vec<FileConfig>,
 }
 
-#[derive(Clone, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct FileConfig {
     pub path: PathBuf,
     pub search: String,

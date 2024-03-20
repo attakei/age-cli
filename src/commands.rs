@@ -5,8 +5,10 @@ mod minor;
 mod patch;
 mod update;
 
-use anyhow::Result;
+use anyhow::{anyhow, Result};
 use clap::{Parser, Subcommand};
+
+use crate::config;
 
 #[derive(Parser)]
 #[command(version, about, long_about = None)]
@@ -29,6 +31,16 @@ enum Commands {
     Patch(patch::Arguments),
     /// Create configuration file.
     Init(init::Arguments),
+}
+
+/**
+ * Resolve valid configuration file and parse struct.
+ */
+fn require_config() -> Result<config::Config> {
+    if config::find_config_path().is_none() {
+        return Err(anyhow!("Configuratio file is not exists."));
+    }
+    return Ok(config::load_config().unwrap());
 }
 
 pub fn run_command() -> Result<()> {
