@@ -1,10 +1,12 @@
 // Configuration manager.
 
+use anyhow::{anyhow, Result};
 use semver::Version;
 use serde::{Deserialize, Serialize};
 use std::env::current_dir;
 use std::fs::read_to_string;
 use std::path::{Path, PathBuf};
+use toml::de::Error;
 
 pub const DEFAULT_FILENAME: &'static str = ".age.toml";
 pub const DEFAULT_VALUES: &'static str = r#"
@@ -47,11 +49,15 @@ pub fn find_config_path() -> Option<PathBuf> {
     None
 }
 
-pub fn load_config() -> Option<Config> {
+pub fn load_config() -> Result<Config> {
     let config_path = find_config_path();
     if config_path.is_none() {
-        return None;
+        return Err(anyhow!("Configuratio file is not found."));
     }
     let config_text = read_to_string(config_path.unwrap()).unwrap();
-    Some(toml::from_str(config_text.as_ref()).unwrap())
+    let config_data: Result<Config, Error> = toml::from_str(config_text.as_ref());
+    match config_data {
+        Ok(data) => Ok(data),
+        Err(err) => Err(anyhow!(err.to_string())),
+    }
 }

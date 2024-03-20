@@ -40,7 +40,7 @@ fn require_config() -> Result<config::Config> {
     if config::find_config_path().is_none() {
         return Err(anyhow!("Configuratio file is not exists."));
     }
-    return Ok(config::load_config().unwrap());
+    return config::load_config();
 }
 
 pub fn run_command() -> Result<()> {
