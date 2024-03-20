@@ -22,8 +22,14 @@ pub fn update(base_config: &Config, new_version: &Version) -> Result<()> {
         replace: "current_version = \\\"{{new_version}}\\\"".to_string(),
     });
     for f in files {
-        let search_text = Tera::one_off(&f.search, &ctx, true).unwrap();
-        let replace_text = Tera::one_off(&f.replace, &ctx, true).unwrap();
+        let search_text = Tera::one_off(&f.search, &ctx, true)
+            .unwrap()
+            .trim_start()
+            .to_string();
+        let replace_text = Tera::one_off(&f.replace, &ctx, true)
+            .unwrap()
+            .trim_start()
+            .to_string();
         let new_text = build_updates(read_to_string(&f.path).unwrap(), search_text, replace_text);
         let mut out = File::create(&f.path)?;
         let _ = out.write(new_text.as_bytes());
@@ -41,11 +47,22 @@ fn make_context(current_version: &Version, new_version: &Version) -> Context {
 }
 
 fn build_updates(input: String, seach_text: String, replace_text: String) -> String {
+    let lines = seach_text.split("\n").count();
+    println!("{}", lines);
+    let mut buf: Vec<String> = Vec::new();
     let mut output: Vec<String> = Vec::new();
     for line in input.split("\n") {
-        if line == seach_text {
+        if buf.len() == lines {
+            output.push(buf.pop().unwrap());
+        }
+        buf.push(line.to_string());
+        if buf.join("\n") == seach_text {
             output.push(replace_text.to_string());
-        } else {
+            buf.clear();
+        }
+    }
+    if buf.len() > 0 {
+        for line in buf {
             output.push(line.to_string());
         }
     }

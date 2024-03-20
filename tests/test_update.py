@@ -72,3 +72,33 @@ def test_valid_conf__single_line(cmd, tmp_path: Path):  # noqa: D103
     proc = cmd("0.2.0")
     assert proc.returncode == 0
     assert data_txt.read_text() == "0.2.0"
+
+
+def test_valid_conf__multi_line(cmd, tmp_path: Path):  # noqa: D103
+    conf_text = textwrap.dedent(
+        '''\
+    current_version = "0.0.0"
+
+    [[files]]
+    path = "data.txt"
+    search = """
+    Target
+    ======
+    """
+    replace = """
+    Target
+    ======
+
+    v {{new_version}}
+    -----------------
+    """
+    '''
+    )
+    (tmp_path / ".age.toml").write_text(conf_text)
+    data_txt = tmp_path / "data.txt"
+    data_txt.write_text("Target\n======\n")
+
+    proc = cmd("0.2.0")
+    assert proc.returncode == 0
+    assert len(data_txt.read_text().split("\n")) == 6
+    assert "v 0.2.0" in data_txt.read_text()
