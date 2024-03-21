@@ -1,5 +1,5 @@
 [project]
-name = "age"
+name = "age-cli"
 version = "0.4.0"
 description = "This is virtual project for testing and documentation."
 authors = [

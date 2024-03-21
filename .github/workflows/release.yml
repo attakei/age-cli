@@ -58,7 +58,7 @@ jobs:
       - uses: ncipollo/release-action@v1
         with:
           artifacts: 'dist/*'
-          body: 'See https://github.com/attakei-lab/age/blob/main/CHANGELOG.md'
+          body: 'See https://github.com/attakei/age-cli/blob/main/CHANGELOG.md'
           draft: false
           name: Release ${{ github.ref_name }}
           tag: ${{ github.ref }}
