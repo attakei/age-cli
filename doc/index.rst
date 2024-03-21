@@ -15,7 +15,7 @@ Age is faster bump-version implementation written by Rust-lang.
 Concept
 =======
 
-.. todo:: TBD
+This is high-performance bumpversion tool.
 
 Motivation
 ==========

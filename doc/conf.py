@@ -19,6 +19,7 @@ html_css_files = ["css/custom.css"]
 html_title = "age -faster bumpversion alternation-"
 html_short_title = "age"
 html_theme_options = {
+    "globaltoc_collapse": False,
     "source_url": "https://github.com/attakei/age-cli/",
     "source_icon": "github",
 }

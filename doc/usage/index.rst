@@ -5,7 +5,7 @@ Usage
 There are some steps to use age.
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
    installation
    setup
