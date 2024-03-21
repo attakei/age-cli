@@ -54,6 +54,25 @@ def test_invalid_conf(cmd, tmp_path: Path):  # noqa: D103
     assert proc.returncode == 1
 
 
+def test_invalid_args(cmd, tmp_path: Path):  # noqa: D103
+    conf_text = textwrap.dedent(
+        """\
+    current_version = "0.0.0"
+
+    [[files]]
+    path = "data.txt"
+    search = "{{current_version}}"
+    replace = "{{new_version}}"
+    """
+    )
+    (tmp_path / ".age.toml").write_text(conf_text)
+    data_txt = tmp_path / "data.txt"
+    data_txt.write_text("0.0.0")
+
+    proc = cmd("-1")
+    assert proc.returncode != 0
+
+
 def test_valid_conf__single_line(cmd, tmp_path: Path):  # noqa: D103
     conf_text = textwrap.dedent(
         """\
