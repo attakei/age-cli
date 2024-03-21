@@ -4,13 +4,13 @@
 
 ## Breaking chances
 
-- Remove `version` subcommand (use `--version` intead)
+- Remove `version` subcommand (use `--version` instead)
 
 ### Features
 
 - Print error these cases:
   - Run `init` if configuration file is already exists.
-  - Run except for `init` if configuration file is not exists or is invalid foramt.
+  - Run except for `init` if configuration file is not exists or is invalid format.
 
 ## v0.3.0 - 2024-03-18 (JST)
 
