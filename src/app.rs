@@ -18,8 +18,8 @@ pub fn update(base_config: &Config, new_version: &Version) -> Result<()> {
     let mut files = new_config.get_files().clone();
     files.push(FileConfig {
         path: PathBuf::from(DEFAULT_FILENAME),
-        search: "current_version = \\\"{{current_version}}\\\"".to_string(),
-        replace: "current_version = \\\"{{new_version}}\\\"".to_string(),
+        search: "current_version = \"{{current_version}}\"".to_string(),
+        replace: "current_version = \"{{new_version}}\"".to_string(),
     });
     for f in files {
         let search_text = Tera::one_off(&f.search, &ctx, true)

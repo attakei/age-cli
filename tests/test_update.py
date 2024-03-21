@@ -69,6 +69,7 @@ def test_valid_conf__single_line(cmd, tmp_path: Path):  # noqa: D103
     proc = cmd("update", "0.2.0")
     assert proc.returncode == 0
     assert data_txt.read_text() == "0.2.0"
+    assert 'current_version = "0.2.0"' in (tmp_path / ".age.toml").read_text()
 
 
 def test_valid_conf__multi_line(cmd, tmp_path: Path):  # noqa: D103
