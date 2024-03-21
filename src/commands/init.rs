@@ -12,7 +12,9 @@ use tera::{Context, Tera};
 const TEMPLATE_BASE: &'static str = r#"
 current_version = "{{ current_version }}"
 
-{{ files }}
+{% for f in files -%}
+{{ f }}
+{% endfor -%}
 "#;
 
 const TEMPLATE_FOR_RUST: &'static str = r#"
@@ -31,8 +33,8 @@ replace = "version = \"{{new_version}}\""
 
 #[derive(Args)]
 pub(crate) struct Arguments {
-    #[arg(long, value_parser=["rust", "python"], default_value="rust")]
-    preset: String,
+    #[arg(long, num_args = 0..)]
+    preset: Vec<String>,
 }
 
 pub(crate) fn execute(args: &Arguments) -> Result<()> {
@@ -43,14 +45,17 @@ pub(crate) fn execute(args: &Arguments) -> Result<()> {
 
     let mut ctx = Context::new();
     ctx.insert("current_version", "0.0.0");
-    match args.preset.as_str() {
-        "rust" => ctx.insert("files", &TEMPLATE_FOR_RUST.to_string().trim_start()),
-        "python" => ctx.insert("files", &TEMPLATE_FOR_PYTHON.to_string().trim_start()),
-        p => {
-            println!("'{}' is not support", p);
-            ctx.insert("files", &"".to_string());
+    let mut files: Vec<String> = Vec::new();
+    for p in &args.preset {
+        match p.as_str() {
+            "rust" => files.push(TEMPLATE_FOR_RUST.trim_start().to_string()),
+            "python" => files.push(TEMPLATE_FOR_PYTHON.trim_start().to_string()),
+            p => {
+                println!("'{}' is not support", p);
+            }
         }
     }
+    ctx.insert("files", &files);
 
     println!("Creating file.");
     // Generate config file.
