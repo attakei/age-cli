@@ -48,7 +48,6 @@ fn make_context(current_version: &Version, new_version: &Version) -> Context {
 
 fn build_updates(input: String, seach_text: String, replace_text: String) -> String {
     let lines = seach_text.split("\n").count();
-    println!("{}", lines);
     let mut buf: Vec<String> = Vec::new();
     let mut output: Vec<String> = Vec::new();
     for line in input.split("\n") {
