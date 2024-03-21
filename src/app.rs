@@ -23,14 +23,8 @@ pub fn update(base_config: &Config, new_version: &Version) -> Result<()> {
         replace: "current_version = \"{{new_version}}\"".to_string(),
     });
     for f in files {
-        let search_text = Tera::one_off(&f.search, &ctx, true)
-            .unwrap()
-            .trim_start()
-            .to_string();
-        let replace_text = Tera::one_off(&f.replace, &ctx, true)
-            .unwrap()
-            .trim_start()
-            .to_string();
+        let search_text = Tera::one_off(&f.search, &ctx, true).unwrap().to_string();
+        let replace_text = Tera::one_off(&f.replace, &ctx, true).unwrap().to_string();
         let new_text = build_updates(read_to_string(&f.path).unwrap(), search_text, replace_text);
         let mut out = File::create(&f.path)?;
         let _ = out.write(new_text.as_bytes());

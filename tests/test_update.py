@@ -3,6 +3,8 @@
 import textwrap
 from pathlib import Path
 
+import pytest
+
 
 def test_not_configured_env(cmd):
     """'update' command requires configuration file.
@@ -72,51 +74,53 @@ def test_valid_conf__single_line(cmd, tmp_path: Path):  # noqa: D103
     assert 'current_version = "0.2.0"' in (tmp_path / ".age.toml").read_text()
 
 
-def test_valid_conf__multi_line(cmd, tmp_path: Path):  # noqa: D103
+@pytest.mark.parametrize(
+    "fileconf,before,after",
+    [
+        (
+            textwrap.dedent('''\
+                [[files]]
+                path = "data.txt"
+                search = """
+                Target
+                ======
+                """
+                replace = """
+                Target
+                ======
+
+                v{{new_version}}
+                ------
+                """
+                '''),
+            textwrap.dedent("""\
+                Target
+                ======
+            """),
+            textwrap.dedent("""\
+                Target
+                ======
+
+                v0.2.0
+                ------
+                """),
+        )
+    ],
+)
+def test_valid_conf__multi_line(cmd, tmp_path: Path, fileconf, before, after):  # noqa: D103
     conf_text = textwrap.dedent(
-        '''\
+        f"""\
     current_version = "0.0.0"
 
-    [[files]]
-    path = "data.txt"
-    search = """
-    Target
-    ======
+    {fileconf}
     """
-    replace = """
-    Target
-    ======
-
-    v{{new_version}}
-    ------
-    """
-    '''
     )
     (tmp_path / ".age.toml").write_text(conf_text)
     data_txt = tmp_path / "data.txt"
-    before = textwrap.dedent("""\
-    ====
-    Data
-    ====
-
-    Target
-    ======
-    """)
-    after = textwrap.dedent("""\
-    ====
-    Data
-    ====
-
-    Target
-    ======
-
-    v0.2.0
-    ------
-    """)
     data_txt.write_text(before)
 
     proc = cmd("update", "0.2.0")
-    print(data_txt.read_text())
+    # print(data_txt.read_text())
+    print(proc.stdout)
     assert proc.returncode == 0
-    assert len(data_txt.read_text().split("\n")) == 10
     assert data_txt.read_text() == after
