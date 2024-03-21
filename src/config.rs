@@ -9,14 +9,6 @@ use std::path::{Path, PathBuf};
 use toml::de::Error;
 
 pub const DEFAULT_FILENAME: &'static str = ".age.toml";
-pub const DEFAULT_VALUES: &'static str = r#"
-current_version = "0.0.0"
-
-[[files]]
-path = "Cargo.toml"
-search = "version = \"{{current_version}}\""
-replace = "version = \"{{new_version}}\""
-"#;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Config {
