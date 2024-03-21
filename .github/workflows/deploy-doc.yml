@@ -26,10 +26,9 @@ jobs:
         run: |
           source .venv/bin/activate
           make -C doc dirhtml
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Publish
+        uses: cloudflare/wrangler-action@v3
         with:
-          path: doc/_build/dirhtml
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy doc/_build/dirhtml --project-name=${{ secrets.CLOUDFLARE_PAGES_NAME }}
