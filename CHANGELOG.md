@@ -6,7 +6,7 @@
 
 - Remove `version` subcommand (use `--version` intead)
 
-## Features
+### Features
 
 - Print error these cases:
   - Run `init` if configuration file is already exists.
