@@ -87,16 +87,36 @@ def test_valid_conf__multi_line(cmd, tmp_path: Path):  # noqa: D103
     Target
     ======
 
-    v {{new_version}}
-    -----------------
+    v{{new_version}}
+    ------
     """
     '''
     )
     (tmp_path / ".age.toml").write_text(conf_text)
     data_txt = tmp_path / "data.txt"
-    data_txt.write_text("Target\n======\n")
+    before = textwrap.dedent("""\
+    ====
+    Data
+    ====
+
+    Target
+    ======
+    """)
+    after = textwrap.dedent("""\
+    ====
+    Data
+    ====
+
+    Target
+    ======
+
+    v0.2.0
+    ------
+    """)
+    data_txt.write_text(before)
 
     proc = cmd("update", "0.2.0")
+    print(data_txt.read_text())
     assert proc.returncode == 0
-    assert len(data_txt.read_text().split("\n")) == 6
-    assert "v 0.2.0" in data_txt.read_text()
+    assert len(data_txt.read_text().split("\n")) == 10
+    assert data_txt.read_text() == after

@@ -1,6 +1,7 @@
 use anyhow::Result;
 use chrono::Local;
 use semver::Version;
+use std::collections::VecDeque;
 use std::fs::{read_to_string, File};
 use std::io::prelude::*;
 use std::path::PathBuf;
@@ -46,16 +47,17 @@ fn make_context(current_version: &Version, new_version: &Version) -> Context {
     ctx
 }
 
-fn build_updates(input: String, seach_text: String, replace_text: String) -> String {
-    let lines = seach_text.split("\n").count();
-    let mut buf: Vec<String> = Vec::new();
+fn build_updates(input: String, search_text: String, replace_text: String) -> String {
+    let lines = search_text.split("\n").count();
+    let mut buf: VecDeque<String> = VecDeque::new();
     let mut output: Vec<String> = Vec::new();
     for line in input.split("\n") {
         if buf.len() == lines {
-            output.push(buf.pop().unwrap());
+            output.push(buf.pop_front().unwrap());
         }
-        buf.push(line.to_string());
-        if buf.join("\n") == seach_text {
+        buf.push_back(line.to_string());
+        let buf_vec: Vec<String> = buf.clone().into();
+        if buf_vec.join("\n") == search_text {
             output.push(replace_text.to_string());
             buf.clear();
         }
