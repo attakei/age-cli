@@ -2,7 +2,7 @@
 
 ## v0.4.0 - 2024-03-21 (JST)
 
-## Breaking chances
+### Breaking chances
 
 - Remove `version` subcommand (use `--version` instead)
 
