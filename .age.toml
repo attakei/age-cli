@@ -23,3 +23,16 @@ replace = """
 
 ## v{{new_version}} - {{now|date}} (JST)
 """
+
+[[files]]
+path = "doc/usage/installation.rst"
+search = """
+   curl -L https://github.com/attakei/age-cli/releases/download/v{{current_version}}/age-v{{current_version}}_linux.zip | bsdtar x -
+   chmod +x age-v{{current_version}}/age
+   cp age-v{{current_version}}/age /path/to/bin/
+"""
+replace = """
+   curl -L https://github.com/attakei/age-cli/releases/download/v{{new_version}}/age-v{{new_version}}_linux.zip | bsdtar x -
+   chmod +x age-v{{new_version}}/age
+   cp age-v{{new_version}}/age /path/to/bin/
+"""
