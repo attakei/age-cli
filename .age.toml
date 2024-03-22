@@ -36,3 +36,9 @@ replace = """
    chmod +x age-v{{new_version}}/age
    cp age-v{{new_version}}/age /path/to/bin/
 """
+
+# This file has other replace target, but currently not supported.
+[[files]]
+path = ".github/release-body.md"
+search = "- Changelog is https://github.com/attakei/age-cli/blob/v{{current_version}}/CHANGELOG.md"
+replace = "- Changelog is https://github.com/attakei/age-cli/blob/v{{new_version}}/CHANGELOG.md"
