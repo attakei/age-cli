@@ -5,7 +5,7 @@
 project = "age"
 copyright = "2024, attakei.net"
 author = "Kazuya Takei"
-release = "0.4.0"
+release = "0.5.0"
 
 # -- General configuration
 extensions = ["myst_parser", "sphinx.ext.todo"]

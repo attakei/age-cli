@@ -1,5 +1,20 @@
 # Changelog
 
+## v0.5.0 - 2024-03-22 (JST)
+
+### Features
+
+- Support multiline replacement.
+- `init` command support `--preset` option to customize first `.age.toml`.
+
+### Misc
+
+- Rename project (binary name is not changed).
+- Transfer repository into personarl space.
+- Add management target by age.
+- Update documents.
+- Launch documentation site on https://age.attakei.dev/
+
 ## v0.4.0 - 2024-03-21 (JST)
 
 ### Breaking chances
