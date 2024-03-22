@@ -8,5 +8,5 @@ There are some steps to use age.
    :maxdepth: 2
 
    installation
-   setup
+   configuration
    commands
