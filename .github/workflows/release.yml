@@ -64,5 +64,7 @@ jobs:
           name: Release ${{ github.ref_name }}
           tag: ${{ github.ref }}
           prerelease: false
-      - name: 'Update document'
-        uses: './.github/workflows/deploy-doc'
+  deploy-doc:
+    needs: [build]
+    uses: './.github/workflows/deploy-doc.yml'
+    secrets: inherit
