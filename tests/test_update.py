@@ -1,126 +1,39 @@
 """Test case for ``age update``."""
 
-import textwrap
+import shutil
 from pathlib import Path
+from subprocess import CompletedProcess, run
 
 import pytest
 
-
-def test_not_configured_env(cmd):
-    """'update' command requires configuration file.
-
-    If age does not find configuration file, it should display message.
-    """
-    proc = cmd("update", "0.2.0")
-    assert proc.returncode == 1
-    assert "not exists." in proc.stderr
+root = Path(__file__).parent
 
 
-def test_empty_conf(cmd, tmp_path: Path):  # noqa: D103
-    (tmp_path / ".age.toml").touch()
-    proc = cmd("update", "0.2.0")
-    assert proc.returncode == 1
-
-
-def test_invalid_conf(cmd, tmp_path: Path):  # noqa: D103
-    conf_text = textwrap.dedent(
-        """\
-    current_version = "0.0.0"
-    """
-    )
-    (tmp_path / ".age.toml").write_text(conf_text)
-
-    proc = cmd("update", "0.2.0")
-    assert proc.returncode == 1
-
-
-def test_invalid_args(cmd, tmp_path: Path):  # noqa: D103
-    conf_text = textwrap.dedent(
-        """\
-    current_version = "0.0.0"
-
-    [[files]]
-    path = "data.txt"
-    search = "{{current_version}}"
-    replace = "{{new_version}}"
-    """
-    )
-    (tmp_path / ".age.toml").write_text(conf_text)
-    data_txt = tmp_path / "data.txt"
-    data_txt.write_text("0.0.0")
-
-    proc = cmd("update", "-1")
-    assert proc.returncode != 0
-
-
-def test_valid_conf__single_line(cmd, tmp_path: Path):  # noqa: D103
-    conf_text = textwrap.dedent(
-        """\
-    current_version = "0.0.0"
-
-    [[files]]
-    path = "data.txt"
-    search = "{{current_version}}"
-    replace = "{{new_version}}"
-    """
-    )
-    (tmp_path / ".age.toml").write_text(conf_text)
-    data_txt = tmp_path / "data.txt"
-    data_txt.write_text("0.0.0")
-
-    proc = cmd("update", "0.2.0")
-    assert proc.returncode == 0
-    assert data_txt.read_text() == "0.2.0"
-    assert 'current_version = "0.2.0"' in (tmp_path / ".age.toml").read_text()
+def get_env_dirs(name: str):  # noqa: D103
+    paths = [p for p in (root / name).glob("*") if p.is_dir()]
+    return {"argvalues": paths, "ids": [f"{p.parent.name}/{p.name}" for p in paths]}
 
 
 @pytest.mark.parametrize(
-    "fileconf,before,after",
-    [
-        (
-            textwrap.dedent('''\
-                [[files]]
-                path = "data.txt"
-                search = """
-                Target
-                ======
-                """
-                replace = """
-                Target
-                ======
-
-                v{{new_version}}
-                ------
-                """
-                '''),
-            textwrap.dedent("""\
-                Target
-                ======
-            """),
-            textwrap.dedent("""\
-                Target
-                ======
-
-                v0.2.0
-                ------
-                """),
-        )
-    ],
+    "env_path",
+    **get_env_dirs("return-1"),
 )
-def test_valid_conf__multi_line(cmd, tmp_path: Path, fileconf, before, after):  # noqa: D103
-    conf_text = textwrap.dedent(
-        f"""\
-    current_version = "0.0.0"
+def test_invalid_env(cmd, env_path: Path, tmp_path: Path):
+    """Run test caese on env having invalid configuration."""
+    print(env_path)
+    shutil.copytree(env_path, tmp_path, dirs_exist_ok=True)
+    proc: CompletedProcess = cmd("update", "0.2.0")
+    assert proc.returncode == 1
 
-    {fileconf}
-    """
-    )
-    (tmp_path / ".age.toml").write_text(conf_text)
-    data_txt = tmp_path / "data.txt"
-    data_txt.write_text(before)
 
-    proc = cmd("update", "0.2.0")
-    # print(data_txt.read_text())
-    print(proc.stdout)
+@pytest.mark.parametrize(
+    "env_path",
+    **get_env_dirs("return-0"),
+)
+def test_valid_env(cmd, env_path: Path, tmp_path: Path):
+    """Run test caese on env having valid files."""
+    shutil.copytree(env_path / "before", tmp_path, dirs_exist_ok=True)
+    proc: CompletedProcess = cmd("update", "0.2.0")
     assert proc.returncode == 0
-    assert data_txt.read_text() == after
+    diff = run(["diff", "--recursive", str(tmp_path), str(env_path / "after")])
+    assert diff.returncode == 0
