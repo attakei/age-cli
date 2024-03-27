@@ -3,6 +3,7 @@ mod app;
 mod commands;
 mod config;
 mod versioning;
+mod writer;
 use crate::commands::run_command;
 
 fn main() {
