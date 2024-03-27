@@ -9,10 +9,14 @@ import pytest
 project_root = Path(__file__).parent.parent
 
 
-@pytest.fixture(scope="session", autouse=True)
-def build_test_target():
+def pytest_sessionstart(session):
     """Generate age binary for testing."""
-    run(["cargo", "build"], stdout=PIPE, stderr=PIPE, cwd=project_root)
+    print("Now building binary from Cargo ... ", end="")
+    proc = run(["cargo", "build"], stdout=PIPE, stderr=PIPE, cwd=project_root)
+    if proc.returncode != 0:
+        print("Failed!!")
+        pytest.exit(1)
+    print(" OK!")
 
 
 @pytest.fixture
