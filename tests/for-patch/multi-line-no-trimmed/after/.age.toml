@@ -1,0 +1,14 @@
+current_version = "0.1.1"
+
+[[files]]
+path = "example.txt"
+search = """Target
+======
+"""
+replace = """
+Target
+======
+
+v{{new_version}}
+------
+"""

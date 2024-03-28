@@ -1,0 +1,11 @@
+current_version = "1.0.0"
+
+[[files]]
+path = "example.txt"
+search = "version = '{{current_version}}'"
+replace = "version = '{{new_version}}'"
+
+[[files]]
+path = "example.py"
+search = "__version__ = \"{{current_version}}\""
+replace = "__version__ = \"{{new_version}}\""
