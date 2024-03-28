@@ -5,32 +5,34 @@ use std::path::PathBuf;
 
 use anyhow::Result;
 use tera::{Context, Tera};
+
 /**
  * File writer.
  */
-
 pub struct Writer {
     context: Context,
     targets: HashMap<String, WriteTarget>,
 }
 
+/**
+ * Writing target context per files.
+ */
 pub struct WriteTarget {
+    /** Target filepath. */
     path: PathBuf,
+    /** Replacement ruleset. */
     rules: Vec<WriteRule>,
 }
 
+/**
+ * Replacement rule component.
+ *
+ * Writing proc refer 'search' and 'replace' as pair.
+ */
 pub struct WriteRule {
-    /**
-     * Search target.
-     *
-     * Value is rendered by Tera.
-     */
+    /** Search target that is rendered by Tera. */
     pub search: String,
-    /**
-     * Replacement content.
-     *
-     * Value is rendered by Tera.
-     */
+    /** Replacement content that is rendered by Tera. */
     pub replace: String,
 }
 
