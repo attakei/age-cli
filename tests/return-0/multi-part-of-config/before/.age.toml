@@ -1,0 +1,7 @@
+current_version = "0.1.0"
+
+# Updates by 0.1.0
+[[files]]
+path = ".age.toml"
+search = "# Updates by {{ current_version }}"
+replace = "# Updates by {{ new_version }}"
