@@ -116,3 +116,37 @@ impl WriteRule {
         return output.join("\n");
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    use semver::Version;
+
+    #[test]
+    fn new_writer() {
+        let ctx = Context::new();
+        let writer = Writer::new(&ctx);
+        assert_eq!(writer.targets.len(), 0);
+    }
+
+    #[test]
+    fn dual_rule_in_single_file() {
+        let mut ctx = Context::new();
+        ctx.insert("current_version", &Version::new(0, 1, 0));
+        ctx.insert("new_version", &Version::new(0, 2, 0));
+        let mut writer = Writer::new(&ctx);
+        let filepath = PathBuf::from("dummy.txt");
+        writer.add_target(
+            &filepath,
+            &String::from("target-1"),
+            &String::from("replace-2"),
+        );
+        writer.add_target(
+            &filepath,
+            &String::from("target-2"),
+            &String::from("replace-2"),
+        );
+        assert_eq!(writer.targets.len(), 1);
+    }
+}
