@@ -8,9 +8,6 @@ use crate::config::{Config, DEFAULT_FILENAME};
 use crate::writer::Writer;
 
 pub fn update(base_config: &Config, new_version: &Version) -> Result<()> {
-    let mut new_config = base_config.clone();
-    new_config.current_version = new_version.clone();
-
     let ctx = make_context(&base_config.current_version, new_version);
     let mut writer = Writer::new(&ctx);
     writer.add_target(
