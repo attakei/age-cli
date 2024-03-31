@@ -29,27 +29,19 @@ impl Config {
     }
 }
 
-/**
- * Return path of configuration file by inner rule.
- */
-pub fn find_config_path() -> Option<PathBuf> {
+pub fn resolve_config() -> Result<Config> {
     let pwd = current_dir().unwrap();
-    let _main_toml = pwd.join(Path::new(DEFAULT_FILENAME));
-    if _main_toml.exists() {
-        return Some(_main_toml);
+    let config_path = pwd.join(Path::new(DEFAULT_FILENAME));
+    if !config_path.exists() {
+        return Err(anyhow!("Configuratio file is not exists."));
     }
-    None
-}
-
-pub fn load_config() -> Result<Config> {
-    let config_path = find_config_path();
-    if config_path.is_none() {
-        return Err(anyhow!("Configuratio file is not found."));
+    let config_text = read_to_string(config_path);
+    if config_text.is_err() {
+        return Err(anyhow!(config_text.unwrap_err()));
     }
-    let config_text = read_to_string(config_path.unwrap()).unwrap();
-    let config_data: Result<Config, Error> = toml::from_str(config_text.as_ref());
+    let config_data: Result<Config, Error> = toml::from_str(config_text.unwrap().as_ref());
     match config_data {
         Ok(data) => Ok(data),
-        Err(err) => Err(anyhow!(err.to_string())),
+        Err(err) => Err(anyhow!(err)),
     }
 }

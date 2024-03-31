@@ -8,7 +8,7 @@ mod update;
 use anyhow::{anyhow, Result};
 use clap::{Parser, Subcommand};
 
-use crate::config;
+use crate::config::resolve_config;
 
 #[derive(Parser)]
 #[command(version, about, long_about = None)]
@@ -33,19 +33,9 @@ enum Commands {
     Init(init::Arguments),
 }
 
-/**
- * Resolve valid configuration file and parse struct.
- */
-fn require_config() -> Result<config::Config> {
-    if config::find_config_path().is_none() {
-        return Err(anyhow!("Configuratio file is not exists."));
-    }
-    return config::load_config();
-}
-
 pub fn run_command() -> Result<()> {
     let cli = Cli::parse();
-    let config = require_config();
+    let config = resolve_config();
     match &cli.command {
         Some(Commands::Info(args)) => {
             if config.is_err() {

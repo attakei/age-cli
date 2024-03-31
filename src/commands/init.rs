@@ -1,4 +1,3 @@
-use crate::commands::require_config;
 use crate::config;
 use anyhow::{anyhow, Result};
 use std::env::current_dir;
@@ -38,7 +37,7 @@ pub(crate) struct Arguments {
 }
 
 pub(crate) fn execute(args: &Arguments) -> Result<()> {
-    if require_config().is_ok() {
+    if config::resolve_config().is_ok() {
         return Err(anyhow!("Configuration file is already exists."));
     }
     let target = current_dir()?.join(Path::new(config::DEFAULT_FILENAME));
