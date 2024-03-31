@@ -1,7 +1,8 @@
 /* 'info' command displays data from config-file.
  */
+use crate::config::Config;
+use crate::config::DEFAULT_FILENAME;
 use crate::versioning;
-use crate::{commands::require_config, config::DEFAULT_FILENAME};
 
 use anyhow::Result;
 use clap::Args;
@@ -10,12 +11,7 @@ use tera::{Context, Tera};
 #[derive(Args)]
 pub(crate) struct Arguments {}
 
-pub(crate) fn execute(_args: &Arguments) -> Result<()> {
-    let config = require_config();
-    if config.is_err() {
-        return Err(config.unwrap_err());
-    }
-    let config = config.unwrap();
+pub(crate) fn execute(_args: &Arguments, config: &Config) -> Result<()> {
     let mut ctx = Context::new();
     let mut files: Vec<String> = Vec::new();
     files.push(DEFAULT_FILENAME.to_string());

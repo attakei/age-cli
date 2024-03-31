@@ -1,5 +1,5 @@
 use crate::app;
-use crate::commands::require_config;
+use crate::config::Config;
 use anyhow::Result;
 use clap::Args;
 use semver::Version;
@@ -9,12 +9,6 @@ pub(crate) struct Arguments {
     new_version: Version,
 }
 
-pub(crate) fn execute(args: &Arguments) -> Result<()> {
-    let config = require_config();
-    if config.is_err() {
-        return Err(config.unwrap_err());
-    }
-    let init_config = config.unwrap();
-
-    app::update(&init_config, &args.new_version)
+pub(crate) fn execute(args: &Arguments, config: &Config) -> Result<()> {
+    app::update(&config, &args.new_version)
 }

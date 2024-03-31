@@ -45,13 +45,41 @@ fn require_config() -> Result<config::Config> {
 
 pub fn run_command() -> Result<()> {
     let cli = Cli::parse();
+    let config = require_config();
     match &cli.command {
-        Some(Commands::Info(args)) => info::execute(args),
-        Some(Commands::Init(args)) => init::execute(args),
-        Some(Commands::Update(args)) => update::execute(args),
-        Some(Commands::Major(args)) => major::execute(args),
-        Some(Commands::Minor(args)) => minor::execute(args),
-        Some(Commands::Patch(args)) => patch::execute(args),
+        Some(Commands::Info(args)) => {
+            if config.is_err() {
+                return Err(anyhow!(config.unwrap_err()));
+            }
+            return info::execute(args, &config.unwrap());
+        }
+        Some(Commands::Init(args)) => {
+            return init::execute(args);
+        }
+        Some(Commands::Update(args)) => {
+            if config.is_err() {
+                return Err(anyhow!(config.unwrap_err()));
+            }
+            return update::execute(args, &config.unwrap());
+        }
+        Some(Commands::Major(args)) => {
+            if config.is_err() {
+                return Err(anyhow!(config.unwrap_err()));
+            }
+            return major::execute(args, &config.unwrap());
+        }
+        Some(Commands::Minor(args)) => {
+            if config.is_err() {
+                return Err(anyhow!(config.unwrap_err()));
+            }
+            return minor::execute(args, &config.unwrap());
+        }
+        Some(Commands::Patch(args)) => {
+            if config.is_err() {
+                return Err(anyhow!(config.unwrap_err()));
+            }
+            return patch::execute(args, &config.unwrap());
+        }
         None => Ok(()),
     }
 }
