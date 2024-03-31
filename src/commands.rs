@@ -35,41 +35,22 @@ enum Commands {
 
 pub fn run_command() -> Result<()> {
     let cli = Cli::parse();
-    let config = resolve_config();
+    // Init subcommand is only not required resolved configuration structs.
+    if let Some(Commands::Init(args)) = cli.command {
+        return init::execute(&args);
+    };
+    let resolved = resolve_config();
+    if resolved.is_err() {
+        return Err(anyhow!(resolved.unwrap_err()));
+    }
     match &cli.command {
-        Some(Commands::Info(args)) => {
-            if config.is_err() {
-                return Err(anyhow!(config.unwrap_err()));
-            }
-            return info::execute(args, &config.unwrap());
-        }
-        Some(Commands::Init(args)) => {
-            return init::execute(args);
-        }
-        Some(Commands::Update(args)) => {
-            if config.is_err() {
-                return Err(anyhow!(config.unwrap_err()));
-            }
-            return update::execute(args, &config.unwrap());
-        }
-        Some(Commands::Major(args)) => {
-            if config.is_err() {
-                return Err(anyhow!(config.unwrap_err()));
-            }
-            return major::execute(args, &config.unwrap());
-        }
-        Some(Commands::Minor(args)) => {
-            if config.is_err() {
-                return Err(anyhow!(config.unwrap_err()));
-            }
-            return minor::execute(args, &config.unwrap());
-        }
-        Some(Commands::Patch(args)) => {
-            if config.is_err() {
-                return Err(anyhow!(config.unwrap_err()));
-            }
-            return patch::execute(args, &config.unwrap());
-        }
+        Some(Commands::Info(args)) => info::execute(args, &resolved.unwrap()),
+        Some(Commands::Update(args)) => update::execute(args, &resolved.unwrap()),
+        Some(Commands::Major(args)) => major::execute(args, &resolved.unwrap()),
+        Some(Commands::Minor(args)) => minor::execute(args, &resolved.unwrap()),
+        Some(Commands::Patch(args)) => patch::execute(args, &resolved.unwrap()),
         None => Ok(()),
+        // Init is worked on previous proc.
+        _ => panic!("Invalid pattern."),
     }
 }
