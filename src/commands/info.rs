@@ -27,7 +27,7 @@ pub(crate) fn execute(_args: &Arguments) -> Result<()> {
         files.push(f.path.display().to_string());
     }
     ctx.insert("files", &files);
-    // Display infomation data.
+    // Display information data.
     println!("{}", Tera::one_off(DISPLAY_TEMPLATE, &ctx, true).unwrap());
     Ok(())
 }
@@ -40,7 +40,7 @@ const DISPLAY_TEMPLATE: &'static str = r#"
 - Next minor: {{ next_minor }}
 - Next patch: {{ next_patch }}
 
-# Relace targets
+# Replace targets
 
 {% for f in files -%}
 - {{ f|safe }}
