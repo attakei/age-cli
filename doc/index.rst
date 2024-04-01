@@ -8,6 +8,7 @@ Home
    :maxdepth: 2
 
    usage/index
+   advanced/index
    changelog
 
 Age is faster bump-version implementation written by Rust-lang.
