@@ -37,7 +37,8 @@ pub(crate) struct Arguments {
 }
 
 pub(crate) fn execute(args: &Arguments) -> Result<()> {
-    if config::resolve_config().is_ok() {
+    let pwd = current_dir().unwrap();
+    if config::resolve_config(&pwd).is_ok() {
         return Err(anyhow!("Configuration file is already exists."));
     }
     let target = current_dir()?.join(Path::new(config::DEFAULT_FILENAME));

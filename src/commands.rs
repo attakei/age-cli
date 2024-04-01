@@ -5,6 +5,8 @@ mod minor;
 mod patch;
 mod update;
 
+use std::env::current_dir;
+
 use anyhow::{anyhow, Result};
 use clap::{Parser, Subcommand};
 
@@ -39,7 +41,8 @@ pub fn run_command() -> Result<()> {
     if let Some(Commands::Init(args)) = cli.command {
         return init::execute(&args);
     };
-    let resolved = resolve_config();
+    let pwd = current_dir().unwrap();
+    let resolved = resolve_config(&pwd);
     if resolved.is_err() {
         return Err(anyhow!(resolved.unwrap_err()));
     }

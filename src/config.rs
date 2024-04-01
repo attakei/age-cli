@@ -3,7 +3,6 @@
 use anyhow::{anyhow, Result};
 use semver::Version;
 use serde::{Deserialize, Serialize};
-use std::env::current_dir;
 use std::fs::read_to_string;
 use std::path::{Path, PathBuf};
 use toml::de::Error;
@@ -23,9 +22,8 @@ pub struct FileConfig {
     pub replace: String,
 }
 
-pub fn resolve_config() -> Result<Config> {
-    let pwd = current_dir().unwrap();
-    let config_path = pwd.join(Path::new(DEFAULT_FILENAME));
+pub fn resolve_config(root: &PathBuf) -> Result<Config> {
+    let config_path = root.join(Path::new(DEFAULT_FILENAME));
     if !config_path.exists() {
         return Err(anyhow!("Configuratio file is not exists."));
     }
