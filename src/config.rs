@@ -13,7 +13,7 @@ pub const DEFAULT_FILENAME: &'static str = ".age.toml";
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Config {
     pub current_version: Version,
-    files: Vec<FileConfig>,
+    pub files: Vec<FileConfig>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -21,12 +21,6 @@ pub struct FileConfig {
     pub path: PathBuf,
     pub search: String,
     pub replace: String,
-}
-
-impl Config {
-    pub fn get_files(&self) -> &Vec<FileConfig> {
-        &self.files
-    }
 }
 
 pub fn resolve_config() -> Result<Config> {

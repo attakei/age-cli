@@ -15,7 +15,7 @@ pub fn update(base_config: &Config, new_version: &Version) -> Result<()> {
         &("current_version = \"{{current_version}}\"".to_string()),
         &("current_version = \"{{new_version}}\"".to_string()),
     );
-    for f in base_config.get_files() {
+    for f in &base_config.files {
         writer.add_target(&f.path, &f.search, &f.replace);
     }
 

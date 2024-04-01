@@ -19,7 +19,7 @@ pub(crate) fn execute(_args: &Arguments, config: &Config) -> Result<()> {
     ctx.insert("next_major", &versioning::up_major(&config.current_version));
     ctx.insert("next_minor", &versioning::up_minor(&config.current_version));
     ctx.insert("next_patch", &versioning::up_patch(&config.current_version));
-    for f in config.get_files() {
+    for f in &config.files {
         files.push(f.path.display().to_string());
     }
     ctx.insert("files", &files);
