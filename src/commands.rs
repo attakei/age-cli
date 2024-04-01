@@ -10,7 +10,7 @@ use std::env::current_dir;
 use anyhow::{anyhow, Result};
 use clap::{Parser, Subcommand};
 
-use crate::config::resolve_config;
+use crate::workspace::Workspace;
 
 #[derive(Parser)]
 #[command(version, about, long_about = None)]
@@ -42,7 +42,7 @@ pub fn run_command() -> Result<()> {
         return init::execute(&args);
     };
     let pwd = current_dir().unwrap();
-    let resolved = resolve_config(&pwd);
+    let resolved = Workspace::try_new(pwd);
     if resolved.is_err() {
         return Err(anyhow!(resolved.unwrap_err()));
     }

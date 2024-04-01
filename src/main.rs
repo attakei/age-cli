@@ -1,8 +1,8 @@
 // Entry point.
-mod app;
 mod commands;
 mod config;
 mod versioning;
+mod workspace;
 mod writer;
 use crate::commands::run_command;
 

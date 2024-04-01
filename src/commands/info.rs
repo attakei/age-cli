@@ -1,8 +1,8 @@
 /* 'info' command displays data from config-file.
  */
-use crate::config::Config;
 use crate::config::DEFAULT_FILENAME;
 use crate::versioning;
+use crate::workspace::Workspace;
 
 use anyhow::Result;
 use clap::Args;
@@ -11,15 +11,24 @@ use tera::{Context, Tera};
 #[derive(Args)]
 pub(crate) struct Arguments {}
 
-pub(crate) fn execute(_args: &Arguments, config: &Config) -> Result<()> {
+pub(crate) fn execute(_args: &Arguments, workspace: &Workspace) -> Result<()> {
     let mut ctx = Context::new();
     let mut files: Vec<String> = Vec::new();
     files.push(DEFAULT_FILENAME.to_string());
-    ctx.insert("current_version", &config.current_version);
-    ctx.insert("next_major", &versioning::up_major(&config.current_version));
-    ctx.insert("next_minor", &versioning::up_minor(&config.current_version));
-    ctx.insert("next_patch", &versioning::up_patch(&config.current_version));
-    for f in &config.files {
+    ctx.insert("current_version", &workspace.config.current_version);
+    ctx.insert(
+        "next_major",
+        &versioning::up_major(&workspace.config.current_version),
+    );
+    ctx.insert(
+        "next_minor",
+        &versioning::up_minor(&workspace.config.current_version),
+    );
+    ctx.insert(
+        "next_patch",
+        &versioning::up_patch(&workspace.config.current_version),
+    );
+    for f in &workspace.config.files {
         files.push(f.path.display().to_string());
     }
     ctx.insert("files", &files);
