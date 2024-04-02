@@ -23,7 +23,6 @@ def test_invalid_args(cmd, tmp_path: Path):
 )
 def test_invalid_env(cmd, env_path: Path, tmp_path: Path):
     """Run test caese on env having invalid configuration."""
-    print(env_path)
     shutil.copytree(env_path, tmp_path, dirs_exist_ok=True)
     proc: CompletedProcess = cmd("update", "0.2.0")
     assert proc.returncode != 0
