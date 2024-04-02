@@ -52,7 +52,6 @@ impl Workspace {
         Err(anyhow!("Workspace is not found."))
     }
 
-    #[allow(dead_code)]
     fn init_writer(&self, ctx: &Context) -> Writer {
         let mut writer = Writer::new(ctx);
         writer.add_target(
@@ -66,7 +65,6 @@ impl Workspace {
         writer
     }
 
-    #[allow(dead_code)]
     pub fn update_files(&self, ctx: &Context) -> Result<()> {
         let writer = self.init_writer(ctx);
         match writer.update_all() {
