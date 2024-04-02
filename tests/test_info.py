@@ -17,7 +17,7 @@ def test_not_configured_env(target_bin: str, tmp_path: Path):
     """
     proc = run([target_bin, "info"], stdout=PIPE, stderr=PIPE, text=True, cwd=tmp_path)
     assert proc.returncode == 1
-    assert "not exists." in proc.stderr
+    assert "Workspace is not found." in proc.stderr
 
 
 def test_empty_conf(target_bin: str, tmp_path: Path):  # noqa: D103
@@ -46,4 +46,17 @@ def test_valid_env(cmd, env_path: Path, tmp_path: Path):
     """Run test cases on env having valid files."""
     shutil.copytree(env_path / "before", tmp_path, dirs_exist_ok=True)
     proc: CompletedProcess = cmd("info")
+    assert proc.returncode == 0
+
+
+@pytest.mark.parametrize(
+    "env_path",
+    **get_env_dirs("return-0"),
+)
+def test_valid_env_on_child(cmd, env_path: Path, tmp_path: Path):
+    """Run test cases on env having valid files."""
+    shutil.copytree(env_path / "before", tmp_path, dirs_exist_ok=True)
+    work_dir = tmp_path / "working_directory"
+    work_dir.mkdir()
+    proc: CompletedProcess = cmd("info", cwd=work_dir)
     assert proc.returncode == 0

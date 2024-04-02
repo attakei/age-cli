@@ -1,4 +1,4 @@
-use anyhow::Result;
+use anyhow::{anyhow, Result};
 use chrono::Local;
 use semver::Version;
 use std::path::PathBuf;
@@ -14,6 +14,7 @@ use crate::writer::Writer;
  */
 #[derive(Debug)]
 pub struct Workspace {
+    pub root: PathBuf,
     pub config: Config,
 }
 
@@ -24,8 +25,31 @@ impl Workspace {
             return Err(resolved.unwrap_err());
         }
         Ok(Self {
+            root,
             config: resolved.unwrap(),
         })
+    }
+
+    /**
+     * Search workspace directory upper in order to find git-repo or os-root.
+     */
+    pub fn find(root: PathBuf) -> Result<Self> {
+        let mut pwd = root.clone();
+        loop {
+            let ws = Self::try_new(pwd.clone());
+            if ws.is_ok() {
+                return Ok(ws.unwrap());
+            }
+            if pwd.join(".git").exists() {
+                break;
+            }
+            let parent = pwd.parent();
+            if parent.is_none() {
+                break;
+            }
+            pwd = parent.unwrap().to_path_buf();
+        }
+        Err(anyhow!("Workspace is not found."))
     }
 
     #[allow(dead_code)]

@@ -38,13 +38,14 @@ def cmd(
 ) -> Callable[[Tuple[..., str]], CompletedProcess]:
     """Shortcut to run command on subprocess."""
 
-    def _cmd(*args) -> CompletedProcess:
+    def _cmd(*args, **kwargs) -> CompletedProcess:
+        kwargs.setdefault("cwd", tmp_path)
         return run(
             [target_bin] + list(args),
             stdout=PIPE,
             stderr=PIPE,
             text=True,
-            cwd=tmp_path,
+            **kwargs,
         )
 
     return _cmd

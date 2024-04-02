@@ -15,6 +15,7 @@ pub(crate) fn execute(_args: &Arguments, workspace: &Workspace) -> Result<()> {
     let mut ctx = Context::new();
     let mut files: Vec<String> = Vec::new();
     files.push(DEFAULT_FILENAME.to_string());
+    ctx.insert("workspace_root", &workspace.root);
     ctx.insert("current_version", &workspace.config.current_version);
     ctx.insert(
         "next_major",
@@ -38,6 +39,11 @@ pub(crate) fn execute(_args: &Arguments, workspace: &Workspace) -> Result<()> {
 }
 
 const DISPLAY_TEMPLATE: &'static str = r#"
+# Workspace
+
+- Root: {{ workspace_root|safe }}
+- File: .age.toml
+
 # Version info
 
 - Current:    {{ current_version }}

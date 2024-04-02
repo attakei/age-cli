@@ -42,7 +42,7 @@ pub fn run_command() -> Result<()> {
         return init::execute(&args);
     };
     let pwd = current_dir().unwrap();
-    let resolved = Workspace::try_new(pwd);
+    let resolved = Workspace::find(pwd);
     if resolved.is_err() {
         return Err(anyhow!(resolved.unwrap_err()));
     }
