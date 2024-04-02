@@ -1,8 +1,13 @@
 """Test case for ``age info``."""
 
+import shutil
 import textwrap
 from pathlib import Path
-from subprocess import PIPE, run
+from subprocess import PIPE, CompletedProcess, run
+
+import pytest
+
+from . import get_env_dirs
 
 
 def test_not_configured_env(target_bin: str, tmp_path: Path):
@@ -31,3 +36,14 @@ def test_invalid_conf(target_bin: str, tmp_path: Path):  # noqa: D103
 
     proc = run([target_bin, "info"], stdout=PIPE, stderr=PIPE, text=True, cwd=tmp_path)
     assert proc.returncode == 1
+
+
+@pytest.mark.parametrize(
+    "env_path",
+    **get_env_dirs("return-0"),
+)
+def test_valid_env(cmd, env_path: Path, tmp_path: Path):
+    """Run test cases on env having valid files."""
+    shutil.copytree(env_path / "before", tmp_path, dirs_exist_ok=True)
+    proc: CompletedProcess = cmd("info")
+    assert proc.returncode == 0
