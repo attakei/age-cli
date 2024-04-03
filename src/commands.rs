@@ -48,10 +48,10 @@ pub fn run_command() -> Result<()> {
     }
     match &cli.command {
         Some(Commands::Info(args)) => info::execute(args, &resolved.unwrap()),
-        Some(Commands::Update(args)) => update::execute(args, &resolved.unwrap()),
-        Some(Commands::Major(args)) => major::execute(args, &resolved.unwrap()),
-        Some(Commands::Minor(args)) => minor::execute(args, &resolved.unwrap()),
-        Some(Commands::Patch(args)) => patch::execute(args, &resolved.unwrap()),
+        Some(Commands::Update(args)) => update::execute(args, &mut resolved.unwrap()),
+        Some(Commands::Major(args)) => major::execute(args, &mut resolved.unwrap()),
+        Some(Commands::Minor(args)) => minor::execute(args, &mut resolved.unwrap()),
+        Some(Commands::Patch(args)) => patch::execute(args, &mut resolved.unwrap()),
         None => Ok(()),
         // Init is worked on previous proc.
         _ => panic!("Invalid pattern."),

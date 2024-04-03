@@ -3,7 +3,7 @@ use chrono::{DateTime, Local};
 use semver::Version;
 use std::path::PathBuf;
 
-use crate::config::{resolve_config, Config, DEFAULT_FILENAME};
+use crate::config::{resolve_config, Config, ConfigDocument};
 use crate::writer::Writer;
 
 /**
@@ -14,6 +14,7 @@ use crate::writer::Writer;
 #[derive(Debug)]
 pub struct Workspace {
     pub root: PathBuf,
+    pub doc: ConfigDocument,
     pub config: Config,
 }
 
@@ -23,10 +24,8 @@ impl Workspace {
         if resolved.is_err() {
             return Err(resolved.unwrap_err());
         }
-        Ok(Self {
-            root,
-            config: resolved.unwrap(),
-        })
+        let (doc, config) = resolved.unwrap();
+        Ok(Self { root, doc, config })
     }
 
     /**
@@ -53,18 +52,20 @@ impl Workspace {
 
     fn init_writer(&self, ctx: &Context) -> Writer {
         let mut writer = Writer::new(&ctx.for_tera());
-        writer.add_target(
-            &PathBuf::from(DEFAULT_FILENAME),
-            &("current_version = \"{{current_version}}\"".to_string()),
-            &("current_version = \"{{new_version}}\"".to_string()),
-        );
         for f in &self.config.files {
             writer.add_target(&f.path, &f.search, &f.replace);
         }
         writer
     }
 
-    pub fn update_files(&self, ctx: &Context) -> Result<()> {
+    pub fn update_files(&mut self, ctx: &Context) -> Result<()> {
+        match self.doc.update_version(&ctx.new_version) {
+            Ok(_) => {}
+            Err(err) => {
+                return Err(err);
+            }
+        }
+
         let writer = self.init_writer(ctx);
         match writer.update_all() {
             Ok(_) => {

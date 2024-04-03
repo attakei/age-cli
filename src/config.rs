@@ -3,9 +3,9 @@
 use anyhow::{anyhow, Result};
 use semver::Version;
 use serde::{Deserialize, Serialize};
-use std::fs::read_to_string;
-use std::path::{Path, PathBuf};
-use toml::de::Error;
+use std::path::PathBuf;
+
+mod age_toml;
 
 pub const DEFAULT_FILENAME: &'static str = ".age.toml";
 
@@ -22,18 +22,47 @@ pub struct FileConfig {
     pub replace: String,
 }
 
-pub fn resolve_config(root: &PathBuf) -> Result<Config> {
-    let config_path = root.join(Path::new(DEFAULT_FILENAME));
-    if !config_path.exists() {
-        return Err(anyhow!("Configuratio file is not exists."));
+pub trait ParseAvaliable {
+    fn new(root: &PathBuf) -> Result<Self>
+    where
+        Self: Sized;
+    fn get_config(&self) -> Result<Config>;
+    fn update_version(&mut self, version: &Version) -> Result<()>;
+}
+
+#[derive(Debug)]
+pub enum ConfigDocument {
+    AgeToml(age_toml::Property),
+}
+
+impl ConfigDocument {
+    pub fn filename(&self) -> String {
+        match self {
+            Self::AgeToml(_) => age_toml::FILENAME.to_string(),
+        }
     }
-    let config_text = read_to_string(config_path);
-    if config_text.is_err() {
-        return Err(anyhow!(config_text.unwrap_err()));
+    pub fn update_version(&mut self, version: &Version) -> Result<()> {
+        match self {
+            Self::AgeToml(props) => props.update_version(version),
+        }
     }
-    let config_data: Result<Config, Error> = toml::from_str(config_text.unwrap().as_ref());
-    match config_data {
-        Ok(data) => Ok(data),
-        Err(err) => Err(anyhow!(err)),
+}
+
+pub fn resolve_config(root: &PathBuf) -> Result<(ConfigDocument, Config)> {
+    let _age_toml = '_age_toml: {
+        let doc = age_toml::Property::new(root);
+        if doc.is_err() {
+            break '_age_toml Err(doc.unwrap_err());
+        }
+        let doc = doc.unwrap();
+        let config = doc.get_config();
+        if config.is_err() {
+            break '_age_toml Err(config.unwrap_err());
+        }
+        Ok((ConfigDocument::AgeToml(doc), config.unwrap()))
+    };
+    if _age_toml.is_ok() {
+        return _age_toml;
     }
+    Err(anyhow!("Valid configuration file is not exists."))
 }

@@ -1,0 +1,4 @@
+# This is current version
+current_version = "0.1.0"
+
+files = []  # Target files are not set
