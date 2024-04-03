@@ -1,8 +1,7 @@
 use anyhow::{anyhow, Result};
-use chrono::Local;
+use chrono::{DateTime, Local};
 use semver::Version;
 use std::path::PathBuf;
-use tera::Context;
 
 use crate::config::{resolve_config, Config, DEFAULT_FILENAME};
 use crate::writer::Writer;
@@ -53,7 +52,7 @@ impl Workspace {
     }
 
     fn init_writer(&self, ctx: &Context) -> Writer {
-        let mut writer = Writer::new(ctx);
+        let mut writer = Writer::new(&ctx.for_tera());
         writer.add_target(
             &PathBuf::from(DEFAULT_FILENAME),
             &("current_version = \"{{current_version}}\"".to_string()),
@@ -77,10 +76,32 @@ impl Workspace {
     }
 }
 
+#[derive(Debug)]
+pub struct Context {
+    pub now: DateTime<Local>,
+    pub current_version: Version,
+    pub new_version: Version,
+}
+
+impl Context {
+    pub fn new(current_version: &Version, new_version: &Version) -> Self {
+        Self {
+            current_version: current_version.clone(),
+            new_version: new_version.clone(),
+            now: Local::now(),
+        }
+    }
+
+    fn for_tera(&self) -> tera::Context {
+        let mut ctx = tera::Context::new();
+        ctx.insert("current_version", &self.current_version);
+        ctx.insert("new_version", &self.new_version);
+        ctx.insert("now", &self.now.to_rfc3339());
+        return ctx;
+    }
+}
+
+// TODO:: This is only to keep implementation of commands
 pub fn make_context(current_version: &Version, new_version: &Version) -> Context {
-    let mut ctx = Context::new();
-    ctx.insert("current_version", current_version);
-    ctx.insert("new_version", new_version);
-    ctx.insert("now", &Local::now().to_rfc3339());
-    return ctx;
+    Context::new(current_version, new_version)
 }
