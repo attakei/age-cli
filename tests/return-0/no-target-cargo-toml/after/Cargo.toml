@@ -1,0 +1,12 @@
+[package]
+name = "dummy"
+version = "0.1.0"
+edition = "2021"
+
+[package.metadata.age]
+current_version = "0.2.0"
+files = []
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
