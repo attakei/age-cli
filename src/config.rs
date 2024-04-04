@@ -9,8 +9,6 @@ pub mod age_toml;
 mod cargo_toml;
 mod pyproject_toml;
 
-pub const DEFAULT_FILENAME: &'static str = ".age.toml";
-
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Config {
     pub current_version: Version,
