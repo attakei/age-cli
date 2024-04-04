@@ -1,9 +1,9 @@
 use crate::config;
+use crate::config::age_toml;
 use anyhow::{anyhow, Result};
 use std::env::current_dir;
 use std::fs::File;
 use std::io::prelude::*;
-use std::path::Path;
 
 use clap::Args;
 use tera::{Context, Tera};
@@ -41,7 +41,7 @@ pub(crate) fn execute(args: &Arguments) -> Result<()> {
     if config::resolve_config(&pwd).is_ok() {
         return Err(anyhow!("Configuration file is already exists."));
     }
-    let target = current_dir()?.join(Path::new(config::DEFAULT_FILENAME));
+    let target = current_dir()?.join(age_toml::FILENAME);
 
     let mut ctx = Context::new();
     ctx.insert("current_version", "0.0.0");

@@ -5,7 +5,7 @@ use semver::Version;
 use serde::{Deserialize, Serialize};
 use std::path::PathBuf;
 
-mod age_toml;
+pub mod age_toml;
 mod cargo_toml;
 mod pyproject_toml;
 
