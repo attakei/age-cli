@@ -1,6 +1,5 @@
 /* 'info' command displays data from config-file.
  */
-use crate::config::DEFAULT_FILENAME;
 use crate::versioning;
 use crate::workspace::Workspace;
 
@@ -14,7 +13,6 @@ pub(crate) struct Arguments {}
 pub(crate) fn execute(_args: &Arguments, workspace: &Workspace) -> Result<()> {
     let mut ctx = Context::new();
     let mut files: Vec<String> = Vec::new();
-    files.push(DEFAULT_FILENAME.to_string());
     ctx.insert("workspace_root", &workspace.root);
     ctx.insert("workspace_file", &workspace.doc.filename());
     ctx.insert("current_version", &workspace.config.current_version);
