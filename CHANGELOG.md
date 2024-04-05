@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.6.0 - 2024-04-06 (JST)
+
+### Features
+
+- Find parent configuration files.
+- Support extra toml file for configuration.
+  - `Cargo.toml` for Rust project.
+  - `pyproject.toml` for Python project.
+
 ## v0.5.0 - 2024-03-22 (JST)
 
 ### Features
