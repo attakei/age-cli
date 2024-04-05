@@ -1,0 +1,11 @@
+[project]
+name = "dummy"
+version = "0.1.0"
+
+[tool.age]
+current_version = "0.1.0"
+
+[[tool.age.files]]
+path = "example.txt"
+search = "version = '{{current_version}}'"
+replace = "version = '{{new_version}}'"

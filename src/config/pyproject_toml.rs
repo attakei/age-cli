@@ -3,6 +3,7 @@ use std::io::prelude::*;
 use std::path::PathBuf;
 
 use anyhow::{anyhow, Result};
+use toml::{de::Error, Table};
 use toml_edit::{value, DocumentMut};
 
 use super::{Config, ParseAvaliable};
@@ -37,15 +38,19 @@ impl ParseAvaliable for Property {
     }
 
     fn get_config(&self) -> Result<Config> {
-        let mut item = self.doc.as_item();
+        let mut item = &self.doc.to_string().parse::<Table>().unwrap();
         for k in ["tool", "age"] {
             let child = item.get(k);
-            if child.is_none() || !child.unwrap().is_table() {
+            if child.is_none() {
                 return Err(anyhow!("It does not have valid values."));
             }
-            item = child.unwrap();
+            let child = child.unwrap();
+            if !child.is_table() {
+                return Err(anyhow!("It does not have valid values."));
+            }
+            item = child.as_table().unwrap();
         }
-        let config = toml::from_str::<Config>(item.to_string().as_str());
+        let config: Result<Config, Error> = toml::from_str(item.to_string().as_str());
         if config.is_err() {
             return Err(anyhow!(config.unwrap_err()));
         }
