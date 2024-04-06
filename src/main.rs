@@ -7,6 +7,7 @@ mod writer;
 use crate::commands::run_command;
 
 fn main() {
+    env_logger::init();
     let result = run_command();
     let return_code = match result {
         Ok(()) => 0,
