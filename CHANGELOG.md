@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.6.1 - 2024-04-08 (JST)
+
+### Misc
+
+- Change display message of `--version` option (#5)
+- Add logging for some points
+
 ## v0.6.0 - 2024-04-06 (JST)
 
 ### Features
