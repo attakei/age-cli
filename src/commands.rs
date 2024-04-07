@@ -15,7 +15,7 @@ use crate::workspace::Workspace;
 const VERSION: &str = concat!("v", env!("CARGO_PKG_VERSION"));
 
 #[derive(Parser)]
-#[command(name = "age", version = VERSION, about, long_about = None)]
+#[command(name = env!("CARGO_BIN_NAME"), version = VERSION, about, long_about = None)]
 struct Cli {
     #[command(subcommand)]
     command: Option<Commands>,
