@@ -13,6 +13,8 @@ path = "src/main.rs"
 anyhow = "1.0.80"
 chrono = "0.4.35"
 clap = { version = "4.5.2", features = ["derive"] }
+env_logger = "0.11.3"
+log = "0.4.21"
 semver = { version = "1.0.22", features = ["serde"] }
 serde = { version = "1.0.197", features = ["derive"] }
 tera = { version = "1.19.1", features = ["builtins"] }

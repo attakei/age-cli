@@ -1,5 +1,6 @@
 use anyhow::{anyhow, Result};
 use chrono::{DateTime, Local};
+use log::debug;
 use semver::Version;
 use std::path::PathBuf;
 
@@ -20,6 +21,7 @@ pub struct Workspace {
 
 impl Workspace {
     pub fn try_new(root: PathBuf) -> Result<Self> {
+        debug!("Trying init workspace on : {}", root.display().to_string());
         let resolved = resolve_config(&root);
         if resolved.is_err() {
             return Err(resolved.unwrap_err());
@@ -59,6 +61,7 @@ impl Workspace {
     }
 
     pub fn update_files(&mut self, ctx: &Context) -> Result<()> {
+        debug!("Updating configuration file.");
         match self.doc.update_version(&ctx.new_version) {
             Ok(_) => {}
             Err(err) => {
@@ -66,9 +69,11 @@ impl Workspace {
             }
         }
 
+        debug!("Updating target files.");
         let writer = self.init_writer(ctx);
         match writer.update_all() {
             Ok(_) => {
+                debug!("All updatings are completed.");
                 println!("Updated!");
                 Ok(())
             }
@@ -104,5 +109,10 @@ impl Context {
 
 // TODO:: This is only to keep implementation of commands
 pub fn make_context(current_version: &Version, new_version: &Version) -> Context {
+    debug!(
+        "Current version of workspace is {}",
+        current_version.to_string()
+    );
+    debug!("New version of workspace is {}", new_version.to_string());
     Context::new(current_version, new_version)
 }

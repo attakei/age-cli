@@ -1,6 +1,7 @@
 // Configuration manager.
 
 use anyhow::{anyhow, Result};
+use log::info;
 use semver::Version;
 use serde::{Deserialize, Serialize};
 use std::path::PathBuf;
@@ -68,6 +69,7 @@ pub fn resolve_config(root: &PathBuf) -> Result<(ConfigDocument, Config)> {
         Ok((ConfigDocument::AgeToml(doc), config.unwrap()))
     };
     if _age_toml.is_ok() {
+        info!("Found valid .age.toml");
         return _age_toml;
     }
     let _cargo_toml = '_cargo_toml: {
@@ -83,6 +85,7 @@ pub fn resolve_config(root: &PathBuf) -> Result<(ConfigDocument, Config)> {
         Ok((ConfigDocument::CargoToml(doc), config.unwrap()))
     };
     if _cargo_toml.is_ok() {
+        info!("Found valid Cargo.toml");
         return _cargo_toml;
     }
     let _pyproject_toml = '_pyproject_toml: {
@@ -98,7 +101,12 @@ pub fn resolve_config(root: &PathBuf) -> Result<(ConfigDocument, Config)> {
         Ok((ConfigDocument::PyprojectToml(doc), config.unwrap()))
     };
     if _pyproject_toml.is_ok() {
+        info!("Found valid pyproject.toml");
         return _pyproject_toml;
     }
+    info!(
+        "There is not valid configuration in {}",
+        root.display().to_string()
+    );
     Err(anyhow!("Valid configuration file is not exists."))
 }
