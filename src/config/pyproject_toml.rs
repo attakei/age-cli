@@ -6,7 +6,7 @@ use anyhow::{anyhow, Result};
 use toml::{de::Error, Table};
 use toml_edit::{value, DocumentMut};
 
-use super::{Config, ParseAvaliable};
+use super::{Config, ParseAvailable};
 
 pub const FILENAME: &'static str = "pyproject.toml";
 
@@ -16,7 +16,7 @@ pub struct Property {
     pub doc: DocumentMut,
 }
 
-impl ParseAvaliable for Property {
+impl ParseAvailable for Property {
     fn new(root: &PathBuf) -> Result<Self> {
         let filepath = root.join(FILENAME);
         if !filepath.exists() {

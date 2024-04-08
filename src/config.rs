@@ -23,7 +23,7 @@ pub struct FileConfig {
     pub replace: String,
 }
 
-pub trait ParseAvaliable {
+pub trait ParseAvailable {
     fn new(root: &PathBuf) -> Result<Self>
     where
         Self: Sized;
