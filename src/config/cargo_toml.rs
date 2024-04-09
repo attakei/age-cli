@@ -3,7 +3,8 @@ use std::io::prelude::*;
 use std::path::PathBuf;
 
 use anyhow::{anyhow, Result};
-use toml::{de::Error, Table};
+use toml::de::Error;
+use toml::Table;
 use toml_edit::{value, DocumentMut};
 
 use super::{Config, ParseAvailable};

@@ -1,10 +1,11 @@
 // Entry point.
+use crate::commands::run_command;
+
 mod commands;
 mod config;
 mod versioning;
 mod workspace;
 mod writer;
-use crate::commands::run_command;
 
 fn main() {
     env_logger::init();

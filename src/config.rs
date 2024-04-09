@@ -1,10 +1,11 @@
 // Configuration manager.
 
+use std::path::PathBuf;
+
 use anyhow::{anyhow, Result};
 use log::info;
 use semver::Version;
 use serde::{Deserialize, Serialize};
-use std::path::PathBuf;
 
 pub mod age_toml;
 mod cargo_toml;

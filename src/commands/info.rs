@@ -1,11 +1,11 @@
 /* 'info' command displays data from config-file.
  */
-use crate::versioning;
-use crate::workspace::Workspace;
-
 use anyhow::Result;
 use clap::Args;
 use tera::{Context, Tera};
+
+use crate::versioning;
+use crate::workspace::Workspace;
 
 #[derive(Args)]
 pub(crate) struct Arguments {}

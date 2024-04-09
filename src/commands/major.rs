@@ -1,7 +1,8 @@
-use crate::versioning::up_major;
-use crate::workspace::{make_context, Workspace};
 use anyhow::Result;
 use clap::Args;
+
+use crate::versioning::up_major;
+use crate::workspace::{make_context, Workspace};
 
 #[derive(Args)]
 pub(crate) struct Arguments {}

@@ -1,12 +1,13 @@
-use crate::config;
-use crate::config::age_toml;
-use anyhow::{anyhow, Result};
 use std::env::current_dir;
 use std::fs::File;
 use std::io::prelude::*;
 
+use anyhow::{anyhow, Result};
 use clap::Args;
 use tera::{Context, Tera};
+
+use crate::config;
+use crate::config::age_toml;
 
 const TEMPLATE_BASE: &'static str = r#"
 current_version = "{{ current_version }}"

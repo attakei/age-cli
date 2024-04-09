@@ -1,8 +1,9 @@
+use std::path::PathBuf;
+
 use anyhow::{anyhow, Result};
 use chrono::{DateTime, Local};
 use log::debug;
 use semver::Version;
-use std::path::PathBuf;
 
 use crate::config::{resolve_config, Config, ConfigDocument};
 use crate::writer::Writer;

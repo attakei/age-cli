@@ -119,9 +119,9 @@ impl WriteRule {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
-
     use semver::Version;
+
+    use super::*;
 
     #[test]
     fn new_writer() {
