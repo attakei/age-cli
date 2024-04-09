@@ -9,7 +9,7 @@ use tera::{Context, Tera};
 use crate::config;
 use crate::config::age_toml;
 
-const TEMPLATE_BASE: &'static str = r#"
+const TEMPLATE_BASE: &str = r#"
 current_version = "{{ current_version }}"
 
 {% for f in files -%}
@@ -17,14 +17,14 @@ current_version = "{{ current_version }}"
 {% endfor -%}
 "#;
 
-const TEMPLATE_FOR_RUST: &'static str = r#"
+const TEMPLATE_FOR_RUST: &str = r#"
 [[files]]
 path = "Cargo.toml"
 search = "version = \"{{current_version}}\""
 replace = "version = \"{{new_version}}\""
 "#;
 
-const TEMPLATE_FOR_PYTHON: &'static str = r#"
+const TEMPLATE_FOR_PYTHON: &str = r#"
 [[files]]
 path = "pyproject.toml"
 search = "version = \"{{current_version}}\""

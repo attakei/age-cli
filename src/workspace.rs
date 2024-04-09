@@ -23,11 +23,8 @@ pub struct Workspace {
 impl Workspace {
     pub fn try_new(root: PathBuf) -> Result<Self> {
         debug!("Trying init workspace on : {}", root.display().to_string());
-        let resolved = resolve_config(&root);
-        if resolved.is_err() {
-            return Err(resolved.unwrap_err());
-        }
-        let (doc, config) = resolved.unwrap();
+        let resolved = resolve_config(&root)?;
+        let (doc, config) = resolved;
         Ok(Self { root, doc, config })
     }
 
@@ -38,8 +35,8 @@ impl Workspace {
         let mut pwd = root.clone();
         loop {
             let ws = Self::try_new(pwd.clone());
-            if ws.is_ok() {
-                return Ok(ws.unwrap());
+            if let Ok(ws) = ws {
+                return Ok(ws);
             }
             if pwd.join(".git").exists() {
                 break;
@@ -104,7 +101,7 @@ impl Context {
         ctx.insert("current_version", &self.current_version);
         ctx.insert("new_version", &self.new_version);
         ctx.insert("now", &self.now.to_rfc3339());
-        return ctx;
+        ctx
     }
 }
 

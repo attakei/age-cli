@@ -1,7 +1,7 @@
 use std::collections::{HashMap, VecDeque};
 use std::fs::{read_to_string, File};
 use std::io::prelude::*;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 use anyhow::Result;
 use tera::{Context, Tera};
@@ -38,24 +38,24 @@ pub struct WriteRule {
 
 impl Writer {
     pub fn new(ctx: &Context) -> Self {
-        return Self {
+        Self {
             context: ctx.clone(),
             targets: HashMap::new(),
-        };
+        }
     }
 
-    pub fn add_target(&mut self, path: &PathBuf, search: &String, replace: &String) {
+    pub fn add_target(&mut self, path: &Path, search: &str, replace: &str) {
         let path_key = path.display().to_string();
         if !self.targets.contains_key(&path_key) {
             self.targets
-                .insert(path_key.clone(), WriteTarget::new(&path));
+                .insert(path_key.clone(), WriteTarget::new(path));
         }
         let target = self.targets.get_mut(&path_key).unwrap();
         target.add_rule(
-            Tera::one_off(&search, &self.context, true)
+            Tera::one_off(search, &self.context, true)
                 .unwrap()
                 .to_string(),
-            Tera::one_off(&replace, &self.context, true)
+            Tera::one_off(replace, &self.context, true)
                 .unwrap()
                 .to_string(),
         );
@@ -70,11 +70,11 @@ impl Writer {
 }
 
 impl WriteTarget {
-    pub fn new(path: &PathBuf) -> Self {
-        return Self {
-            path: path.clone(),
+    pub fn new(path: &Path) -> Self {
+        Self {
+            path: path.to_path_buf(),
             rules: Vec::new(),
-        };
+        }
     }
 
     pub fn update(&self) -> Result<()> {
@@ -94,10 +94,10 @@ impl WriteTarget {
 
 impl WriteRule {
     fn update(&self, target: String) -> String {
-        let lines = self.search.split("\n").count();
+        let lines = self.search.split('\n').count();
         let mut buf: VecDeque<String> = VecDeque::new();
         let mut output: Vec<String> = Vec::new();
-        for line in target.split("\n") {
+        for line in target.split('\n') {
             if buf.len() == lines {
                 output.push(buf.pop_front().unwrap());
             }
@@ -108,12 +108,12 @@ impl WriteRule {
                 buf.clear();
             }
         }
-        if buf.len() > 0 {
+        if !buf.is_empty() {
             for line in buf {
                 output.push(line.to_string());
             }
         }
-        return output.join("\n");
+        output.join("\n")
     }
 }
 

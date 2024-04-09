@@ -37,7 +37,7 @@ pub(crate) fn execute(_args: &Arguments, workspace: &Workspace) -> Result<()> {
     Ok(())
 }
 
-const DISPLAY_TEMPLATE: &'static str = r#"
+const DISPLAY_TEMPLATE: &str = r#"
 # Workspace
 
 - Root: {{ workspace_root|safe }}

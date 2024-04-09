@@ -20,7 +20,7 @@ jobs:
       - name: 'Run formatter'
         run: cargo +nightly fmt --all --check
       - name: 'Run linter'
-        run: cargo clippy --workspace --all-targets --all-features --locked
+        run: cargo clippy --workspace --all-targets --all-features --locked -- -Dwarnings
   test:
     needs: ['lint']
     runs-on: 'ubuntu-latest'

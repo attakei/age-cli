@@ -1,6 +1,6 @@
 use std::fs::{read_to_string, File};
 use std::io::prelude::*;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 use anyhow::{anyhow, Result};
 use toml_edit::de::from_document;
@@ -8,7 +8,7 @@ use toml_edit::{value, DocumentMut};
 
 use super::{Config, ParseAvailable};
 
-pub const FILENAME: &'static str = ".age.toml";
+pub const FILENAME: &str = ".age.toml";
 
 #[derive(Debug)]
 pub struct Property {
@@ -17,7 +17,7 @@ pub struct Property {
 }
 
 impl ParseAvailable for Property {
-    fn new(root: &PathBuf) -> Result<Self> {
+    fn new(root: &Path) -> Result<Self> {
         let filepath = root.join(FILENAME);
         if !filepath.exists() {
             return Err(anyhow!("Configuration file is not found."));

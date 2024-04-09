@@ -1,6 +1,6 @@
 // Configuration manager.
 
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 use anyhow::{anyhow, Result};
 use log::info;
@@ -25,13 +25,14 @@ pub struct FileConfig {
 }
 
 pub trait ParseAvailable {
-    fn new(root: &PathBuf) -> Result<Self>
+    fn new(root: &Path) -> Result<Self>
     where
         Self: Sized;
     fn get_config(&self) -> Result<Config>;
     fn update_version(&mut self, version: &Version) -> Result<()>;
 }
 
+#[allow(clippy::enum_variant_names)]
 #[derive(Debug)]
 pub enum ConfigDocument {
     AgeToml(age_toml::Property),
@@ -56,32 +57,32 @@ impl ConfigDocument {
     }
 }
 
-pub fn resolve_config(root: &PathBuf) -> Result<(ConfigDocument, Config)> {
+pub fn resolve_config(root: &Path) -> Result<(ConfigDocument, Config)> {
     let _age_toml = '_age_toml: {
         let doc = age_toml::Property::new(root);
-        if doc.is_err() {
-            break '_age_toml Err(doc.unwrap_err());
+        if let Err(err) = doc {
+            break '_age_toml Err(err);
         }
         let doc = doc.unwrap();
         let config = doc.get_config();
-        if config.is_err() {
-            break '_age_toml Err(config.unwrap_err());
+        if let Err(err) = config {
+            break '_age_toml Err(err);
         }
         Ok((ConfigDocument::AgeToml(doc), config.unwrap()))
     };
-    if _age_toml.is_ok() {
+    if let Ok(result) = _age_toml {
         info!("Found valid .age.toml");
-        return _age_toml;
+        return Ok(result);
     }
     let _cargo_toml = '_cargo_toml: {
         let doc = cargo_toml::Property::new(root);
-        if doc.is_err() {
-            break '_cargo_toml Err(doc.unwrap_err());
+        if let Err(err) = doc {
+            break '_cargo_toml Err(err);
         }
         let doc = doc.unwrap();
         let config = doc.get_config();
-        if config.is_err() {
-            break '_cargo_toml Err(config.unwrap_err());
+        if let Err(err) = config {
+            break '_cargo_toml Err(err);
         }
         Ok((ConfigDocument::CargoToml(doc), config.unwrap()))
     };
@@ -91,13 +92,13 @@ pub fn resolve_config(root: &PathBuf) -> Result<(ConfigDocument, Config)> {
     }
     let _pyproject_toml = '_pyproject_toml: {
         let doc = pyproject_toml::Property::new(root);
-        if doc.is_err() {
-            break '_pyproject_toml Err(doc.unwrap_err());
+        if let Err(err) = doc {
+            break '_pyproject_toml Err(err);
         }
         let doc = doc.unwrap();
         let config = doc.get_config();
-        if config.is_err() {
-            break '_pyproject_toml Err(config.unwrap_err());
+        if let Err(err) = config {
+            break '_pyproject_toml Err(err);
         }
         Ok((ConfigDocument::PyprojectToml(doc), config.unwrap()))
     };
