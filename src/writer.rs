@@ -4,6 +4,7 @@ use std::io::prelude::*;
 use std::path::{Path, PathBuf};
 
 use anyhow::Result;
+use regex::Regex;
 use tera::{Context, Tera};
 
 use crate::config::FileConfig;
@@ -99,6 +100,11 @@ impl WriteTarget {
 
 impl WriteRule {
     fn update(&self, target: String) -> String {
+        // If regex is enabled, func runs using Regex directly.
+        if self.regex {
+            let search = Regex::new(&self.search).unwrap();
+            return search.replace(&target, &self.replace).to_string();
+        }
         let lines = self.search.split('\n').count();
         let mut buf: VecDeque<String> = VecDeque::new();
         let mut output: Vec<String> = Vec::new();
