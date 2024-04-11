@@ -2,10 +2,17 @@ repos:
   - repo: local
     hooks:
       - id: rustfmt
-        name: 'Run rustfmt'
+        name: 'Cargo fmt(nightly mode)'
         language: 'rust'
-        entry: 'rustfmt'
+        entry: 'cargo +nightly fmt'
         types: ['file', 'rust']
+        pass_filenames: false
+      - id: clippy
+        name: 'Cargo clippy'
+        language: 'rust'
+        types: ['file', 'rust']
+        entry: 'cargo clippy --workspace --all-targets --all-features --locked -- -Dwarnings'
+        pass_filenames: false
   - repo: https://github.com/astral-sh/ruff-pre-commit
     # Ruff version.
     rev: v0.3.0
