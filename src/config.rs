@@ -22,6 +22,13 @@ pub struct FileConfig {
     pub path: PathBuf,
     pub search: String,
     pub replace: String,
+    pub regex: Option<bool>,
+}
+
+impl FileConfig {
+    pub fn regex(&self) -> bool {
+        self.regex.is_some() && self.regex.unwrap()
+    }
 }
 
 pub trait ParseAvailable {
