@@ -40,5 +40,12 @@ replace = """
 # This file has other replace target, but currently not supported.
 [[files]]
 path = ".github/release-body.md"
-search = "- Changelog is https://github.com/attakei/age-cli/blob/v{{current_version}}/CHANGELOG.md"
-replace = "- Changelog is https://github.com/attakei/age-cli/blob/v{{new_version}}/CHANGELOG.md"
+regex = true
+search = """
+- Changelog is https://github.com/attakei/age-cli/blob/v{{current_version}}/CHANGELOG.md
+- Source changes is (.+)
+"""
+replace = """
+- Changelog is https://github.com/attakei/age-cli/blob/v{{new_version}}/CHANGELOG.md
+- Source changes is https://github.com/attakei/age-cli/compare/v{{current_version}}...v{{new_version}}
+"""
