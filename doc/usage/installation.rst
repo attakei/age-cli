@@ -16,9 +16,9 @@ You can download and use from GitHub Releases.
 
 .. code:: console
 
-   curl -L https://github.com/attakei/age-cli/releases/download/v0.6.1/age-v0.6.1_linux.zip | bsdtar x -
-   chmod +x age-v0.6.1/age
-   cp age-v0.6.1/age /path/to/bin/
+   curl -L https://github.com/attakei/age-cli/releases/download/v0.7.0/age-v0.7.0_linux.zip | bsdtar x -
+   chmod +x age-v0.7.0/age
+   cp age-v0.7.0/age /path/to/bin/
 
 Using Cargo
 -----------

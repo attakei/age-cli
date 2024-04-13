@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.7.0 - 2024-04-13 (JST)
+
+### Features
+
+- Support `regex` option in ``[[files]]`` to search by regular expression. (#8)
+
 ## v0.6.1 - 2024-04-08 (JST)
 
 ### Misc
