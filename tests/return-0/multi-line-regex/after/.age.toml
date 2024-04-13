@@ -1,0 +1,13 @@
+current_version = "0.2.0"
+
+[[files]]
+path = "example.txt"
+regex = true
+search = """
+version = '{{current_version}}'
+(.+)
+"""
+replace = """
+version = '{{new_version}}'
+world
+"""

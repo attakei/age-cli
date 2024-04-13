@@ -4,7 +4,10 @@ use std::io::prelude::*;
 use std::path::{Path, PathBuf};
 
 use anyhow::Result;
+use regex::Regex;
 use tera::{Context, Tera};
+
+use crate::config::FileConfig;
 
 /**
  * File writer.
@@ -34,6 +37,7 @@ pub struct WriteRule {
     pub search: String,
     /** Replacement content that is rendered by Tera. */
     pub replace: String,
+    pub regex: bool,
 }
 
 impl Writer {
@@ -44,21 +48,23 @@ impl Writer {
         }
     }
 
-    pub fn add_target(&mut self, path: &Path, search: &str, replace: &str) {
-        let path_key = path.display().to_string();
+    pub fn add_target(&mut self, config: &FileConfig) {
+        let path_key = config.path.display().to_string();
         if !self.targets.contains_key(&path_key) {
             self.targets
-                .insert(path_key.clone(), WriteTarget::new(path));
+                .insert(path_key.clone(), WriteTarget::new(&config.path));
         }
         let target = self.targets.get_mut(&path_key).unwrap();
-        target.add_rule(
-            Tera::one_off(search, &self.context, true)
+        let rule = WriteRule {
+            search: Tera::one_off(&config.search, &self.context, true)
                 .unwrap()
                 .to_string(),
-            Tera::one_off(replace, &self.context, true)
+            replace: Tera::one_off(&config.replace, &self.context, true)
                 .unwrap()
                 .to_string(),
-        );
+            regex: config.regex(),
+        };
+        target.add_rule(rule);
     }
 
     pub fn update_all(&self) -> Result<()> {
@@ -87,13 +93,18 @@ impl WriteTarget {
         Ok(())
     }
 
-    pub fn add_rule(&mut self, search: String, replace: String) {
-        self.rules.push(WriteRule { search, replace });
+    pub fn add_rule(&mut self, rule: WriteRule) {
+        self.rules.push(rule);
     }
 }
 
 impl WriteRule {
     fn update(&self, target: String) -> String {
+        // If regex is enabled, func runs using Regex directly.
+        if self.regex {
+            let search = Regex::new(&self.search).unwrap();
+            return search.replace(&target, &self.replace).to_string();
+        }
         let lines = self.search.split('\n').count();
         let mut buf: VecDeque<String> = VecDeque::new();
         let mut output: Vec<String> = Vec::new();
@@ -137,16 +148,18 @@ mod tests {
         ctx.insert("new_version", &Version::new(0, 2, 0));
         let mut writer = Writer::new(&ctx);
         let filepath = PathBuf::from("dummy.txt");
-        writer.add_target(
-            &filepath,
-            &String::from("target-1"),
-            &String::from("replace-2"),
-        );
-        writer.add_target(
-            &filepath,
-            &String::from("target-2"),
-            &String::from("replace-2"),
-        );
+        writer.add_target(&FileConfig {
+            path: filepath.clone(),
+            search: String::from("target-1"),
+            replace: String::from("replace-2"),
+            regex: Some(false),
+        });
+        writer.add_target(&FileConfig {
+            path: filepath.clone(),
+            search: String::from("target-2"),
+            replace: String::from("replace-2"),
+            regex: Some(false),
+        });
         assert_eq!(writer.targets.len(), 1);
     }
 }

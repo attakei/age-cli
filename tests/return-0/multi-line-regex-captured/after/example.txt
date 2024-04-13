@@ -1,0 +1,5 @@
+version = '0.2.0'
+hello
+from world
+
+This line is kept.

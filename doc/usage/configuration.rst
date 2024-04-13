@@ -59,6 +59,18 @@ This should be relative path of configuration file.
 Search target of file.
 This accepts multi-line text and using templating.
 
+``files[].regex``
+------------------
+
+:Required: No
+:Default: ``false``
+
+Flag to use regular expression (regex) when searching target.
+
+If it is ``true``, age search target using regex and replace text with captured text.
+
+.. note:: See it: https://docs.rs/regex/1.10.4/regex/
+
 ``files[].replace``
 -------------------
 

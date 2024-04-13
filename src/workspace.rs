@@ -53,7 +53,7 @@ impl Workspace {
     fn init_writer(&self, ctx: &Context) -> Writer {
         let mut writer = Writer::new(&ctx.for_tera());
         for f in &self.config.files {
-            writer.add_target(&f.path, &f.search, &f.replace);
+            writer.add_target(f);
         }
         writer
     }
