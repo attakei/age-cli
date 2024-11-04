@@ -39,15 +39,10 @@ jobs:
       - name: 'Build'
         run: cargo build --verbose
       # Run pytest
-      - uses: actions/setup-python@v5
-        with:
-          python-version-file: '.python-version'
-      - name: 'Configure venv'
+      - uses: astral-sh/setup-uv@v3
+      - name: Configure venv
         run: |
-          pip install uv
-          uv venv
-          uv pip install -r requirements.lock
+          uv sync --frozen --no-dev
       - name: 'Run tests'
         run: |
-          source .venv/bin/activate
-          pytest
+          uv run pytest

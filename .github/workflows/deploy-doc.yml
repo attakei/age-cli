@@ -12,18 +12,13 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version-file: '.python-version'
+      - uses: astral-sh/setup-uv@v3
       - name: Configure venv
         run: |
-          pip install uv
-          uv venv
-          uv pip install -r requirements.lock
-      - name: Run tests
+          uv sync --frozen --no-dev
+      - name: Build doc
         run: |
-          source .venv/bin/activate
-          make -C doc dirhtml
+          uv run make -C doc dirhtml
       - name: Publish
         uses: cloudflare/wrangler-action@v3
         with:
