@@ -13,6 +13,12 @@ Home
 
 Age is faster bump-version implementation written by Rust-lang.
 
+.. asciinema:: ./demo.cast
+   :preload: 1
+   :autoplay: 1
+   :cols: 80
+   :terminalfontsize: 16px
+
 Concept
 =======
 

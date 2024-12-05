@@ -8,7 +8,7 @@ author = "Kazuya Takei"
 release = "0.7.0"
 
 # -- General configuration
-extensions = ["myst_parser", "sphinx.ext.todo"]
+extensions = ["myst_parser", "sphinx.ext.todo", "sphinxcontrib.asciinema"]
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 

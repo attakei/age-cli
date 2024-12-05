@@ -10,6 +10,7 @@ dependencies = [
     { name = "piccolo-theme" },
     { name = "pytest" },
     { name = "sphinx" },
+    { name = "sphinxcontrib-asciinema" },
 ]
 
 [package.dev-dependencies]
@@ -24,6 +25,7 @@ requires-dist = [
     { name = "piccolo-theme", specifier = "~=0.20.0" },
     { name = "pytest", specifier = "~=8.1.1" },
     { name = "sphinx", specifier = "~=7.2.6" },
+    { name = "sphinxcontrib-asciinema", specifier = ">=0.4.2" },
 ]
 
 [package.metadata.requires-dev]
@@ -522,6 +524,15 @@ sdist = { url = "https://files.pythonhosted.org/packages/ba/6e/b837e84a1a704953c
 wheels = [
     { url = "https://files.pythonhosted.org/packages/5d/85/9ebeae2f76e9e77b952f4b274c27238156eae7979c5421fba91a28f4970d/sphinxcontrib_applehelp-2.0.0-py3-none-any.whl", hash = "sha256:4cd3f0ec4ac5dd9c17ec65e9ab272c9b867ea77425228e68ecf08d6b28ddbdb5", size = 119300 },
 ]
+
+[[package]]
+name = "sphinxcontrib-asciinema"
+version = "0.4.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "sphinx" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/c8/b8/a5e405c1c5eae37e466866ed4053613c5a4d75531819426941825a042228/sphinxcontrib.asciinema-0.4.2.tar.gz", hash = "sha256:ab38b3e376f335d3e87f445e3ecbd0524e61bab380760c54c32ee4d4a95c3a59", size = 76686 }
 
 [[package]]
 name = "sphinxcontrib-devhelp"
