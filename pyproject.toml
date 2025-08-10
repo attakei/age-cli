@@ -9,7 +9,7 @@ classifiers = [
     "Private :: Do Not Upload",
 ]
 dependencies = [
-    "sphinx~=7.2.6",
+    "sphinx~=8.2.3",
     "myst-parser~=4.0.1",
     "piccolo-theme~=0.24.0",
     "sphinxcontrib-asciinema>=0.4.2",
