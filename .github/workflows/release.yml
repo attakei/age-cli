@@ -59,7 +59,7 @@ jobs:
           directory: 'dist'
           path: '${{ env.package_name }}'
           filename: '${{ env.dist_name }}.zip'
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: 'release-${{ env.dist_name }}'
           path: 'dist/${{ env.dist_name }}.zip'
@@ -69,7 +69,7 @@ jobs:
     needs: [build]
     steps:
       - uses: 'actions/checkout@v4'
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           path: 'dist'
           merge-multiple: true
